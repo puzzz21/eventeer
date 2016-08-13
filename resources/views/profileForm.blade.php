@@ -18,12 +18,18 @@
 </head>
 <body>
 <div class="jumbotron text-center"><h2>Create profile</h2></div>
-<form class="form-horizontal" role="form" method="POST" action="{{ route('profile.store') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ route('profile.store') }}" enctype="multipart/form-data">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="form-group">
         <label class="control-label col-sm-2" for="fname">name:</label>
         <div class="col-sm-4">
             <input type="text" name="name" size=10 placeholder="name" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="logo" class="col-sm-2 control-label">logo</label>
+        <div class="col-md-4">
+            <input name="logo" type="file" class="form-control"/>
         </div>
     </div>
     {{--<div class="form-group">--}}
@@ -55,13 +61,21 @@
         <!-- <input type="text" name = "interested_events" size=10 placeholder="interested events" class="form-control"/> -->
         <div class="checkbox col-sm-4">
             <label><input type="checkbox" name="music"> music</label>
+            <br/>
             <label><input type="checkbox" name="technology"> technology</label>
+            <br/>
             <label><input type="checkbox" name="sports"> sports & wellness</label>
+            <br/>
             <label><input type="checkbox" name="food">food & drinks</label>
+            <br/>
             <label><input type="checkbox" name="arts">arts</label>
+            <br/>
             <label><input type="checkbox" name="classes">classes</label>
+            <br/>
             <label><input type="checkbox" name="parties">parties</label>
+            <br/>
             <label><input type="checkbox" name="networking">networking</label>
+            <br/>
             <label><input type="checkbox" name="causes">causes</label>
         </div>
     </div>

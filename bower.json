@@ -1,0 +1,21 @@
+{
+  "name": "project",
+  "description": "project",
+  "main": "",
+  "authors": [
+    "puzzz21 <puzz.mhzn@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "paper-input": "Polymer/paper-input#^0.5.6"
+  }
+}

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\profile as Profile;
+use App\Models\Profile;
 use DB;
 use App\Http\Requests;
 
@@ -15,7 +15,7 @@ class profileController extends Controller
     {
         $this->profile = $profile;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -44,8 +44,23 @@ class profileController extends Controller
      */
     public function store(Request $request)
     {
-        $profile = $this->profile->create($request->except('_token'));
-        return view('userProfile', compact('profile'));
+        $details = $request->except('_token');
+        $file =$details['logo'];
+
+        $destinationPath = public_path(). '/public/upload/';
+        $filename = $file->getClientOriginalName();
+        $file->move($destinationPath, $filename);
+
+        $details['photo'] = $filename;
+
+        $profile = $this->profile->newInstance($details);
+
+        $profile->user()->associate(auth()->user());
+
+        $profile->save();
+//        $profile = auth()->user()->profile()->create($details);
+
+        return redirect()->route('profile.show', $profile->id);
 //        $fname=$request->fname;
 //        $uname=$request->uname;
 //        $interested_events=$request->interested_events;
@@ -63,7 +78,9 @@ class profileController extends Controller
      */
     public function show($id)
     {
-        //
+        $profile = $this->profile->findOrFail($id);
+
+        return view('userProfile', compact('profile'));
     }
 
     /**

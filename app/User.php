@@ -1,7 +1,8 @@
-<?php
+<?php namespace App;
 
-namespace App;
-
+use App\Models\Enrollment;
+use App\Models\Event;
+use App\Models\Profile;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -23,4 +24,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+    
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 }

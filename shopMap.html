@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Geocoding service</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+</body>
+
+<script type="text/javascript">
+    function getLocation(address, fn) {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                fn(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+            }
+        });
+    }
+
+    function initialize(myCenter) {
+        var mapProp = {
+            center: myCenter,
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+        var marker = new google.maps.Marker({
+            position: myCenter,
+            title: 'Click to zoom'
+        });
+
+        marker.setMap(map);
+        map.setZoom(15);
+        map.setCenter(marker.getPosition());
+    }
+
+    // Just a snippet to parse the query string and return it as an object.
+    var queryString = (function (address) {
+        var addressObject = {};
+
+        for (var i = 0; i < address.length; ++i) {
+            var pieces = address[i].split('=', 2);
+
+            if (pieces.length == 1) {
+                addressObject[pieces[0]] = "Indrachowk"; // Default address my hometown.
+            } else {
+                if (pieces[1] == '') {
+                    addressObject[pieces[0]] = "Indrachowk"; // Default address my hometown.
+                } else {
+                    addressObject[pieces[0]] = decodeURIComponent(pieces[1].replace(/\+/g, " "));
+                }
+            }
+        }
+
+        return addressObject;
+    })(window.location.search.substr(1).split('&'));
+
+    getLocation(queryString.address, function (latitude, longitude) {
+        google.maps.event.addDomListener(window, 'load', initialize(new google.maps.LatLng(latitude, longitude)));
+    });
+</script>
+
+</html>

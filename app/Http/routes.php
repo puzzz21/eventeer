@@ -12,18 +12,47 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
+Route::get('/',[
+    'as'=>'home',
+    'uses'=>'Event\EventController@hom'
+]);
 Route::resource('profile', 'profileController');
 
-//Route::get('create',function(){
-//	return view('profileform');
-//});
+Route::get('/rsvp/', [
+    'as' => 'rsvp',
+    'uses' => 'Event\EventController@rsvp'
+]);
+
+
+Route::get('/email', [
+    'as' => 'email',
+    'uses' => 'Event\EventController@email'
+]);
+Route::get('/ticket', [
+    'as' => 'ticket',
+    'uses' => 'Event\EventController@ticket'
+]);
+Route::get('/cat/{ca?}', [
+    'as' => 'cat',
+    'uses' => 'Event\EventController@cat'
+]);
+
+Route::get('/upcoming','Event\EventController@upcoming');
 
 Route::get('event',function(){
 	return view('eventpage');
 });
+Route::get('/radius','Event\EventController@radius');
+Route::get('create',function(){
+   return view('create');
+});
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+ Route::post('/search', [
+     'as' => 'search',
+     'uses' => 'Event\EventController@search'
+ ]);
