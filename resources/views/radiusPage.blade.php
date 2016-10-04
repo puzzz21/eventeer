@@ -56,18 +56,18 @@
 
 
 @endsection
-@section('script')
-    <script src="{{asset('js/jquery.datetimepicker.full.min.js')}}"></script>
-    <link rel="stylesheet" type="text/css"  href= "{{asset('css/jquery.datetimepicker.css')}}"/ >
+{{--@section('script')--}}
+    {{--<script src="{{asset('js/jquery.datetimepicker.full.min.js')}}"></script>--}}
+    {{--<link rel="stylesheet" type="text/css"  href= "{{asset('css/jquery.datetimepicker.css')}}"/ >--}}
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script>
-        $('.datetimepicker3').datetimepicker({
-            format: 'd.m.Y',
-            timepicker:false,
-            lang:'ru'
-        });
-    </script>
+    {{--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />--}}
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>--}}
+    {{--<script>--}}
+        {{--$('.datetimepicker3').datetimepicker({--}}
+            {{--format: 'd.m.Y',--}}
+            {{--timepicker:false,--}}
+            {{--lang:'ru'--}}
+        {{--});--}}
+    {{--</script>--}}
 
-@endsection
+{{--@endsection--}}

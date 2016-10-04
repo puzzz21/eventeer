@@ -53,7 +53,7 @@
 
        #bg{
             background-image : url("{{ URL::asset('images/a.jpg') }}");
-            height:700px;
+            height:500px;
            background-repeat: no-repeat;
            background-position: right top;
            background-attachment: fixed;
@@ -223,12 +223,34 @@
 
 
         }
+        .navbar{
+            margin: 0px;
+            padding:0px;
+            /*background: rgba(76, 175, 80, 0);*/
+        }
+        /*.navbar.transparent.navbar-default .navbar-inner {*/
+            /*background: rgba(0,0,0,0.4);*/
+            /*font-size: 15px;*/
+
+        /*}*/
+        .navbar {
+            border:0;
+            font-size: 15px;
+            padding:5px;
+        }
+        .navbar-brand{
+            font-size: 15px;
+        }
+        .create{
+            margin-top:80px;
+        }
     </style>
 
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top" id="navbar">
+        <div class="container-fluid">
+
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->
@@ -277,12 +299,37 @@
         </div>
     </nav>
 
+
     @yield('content')
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <link href="{{asset('bower_components/paper-input/paper-input.html')}}" rel="import">
+
+
+    {{--<script>--}}
+        {{--$('document').ready(function(){--}}
+            {{--$('#navb').css({'visibility':'hidden'});--}}
+
+
+            {{--$(window).scroll(function(){--}}
+
+
+                {{--if(document.body.scrollTop>90)--}}
+                {{--{--}}
+                    {{--$('#navbar').css({'visibility':'visible'});--}}
+                    {{--$('#navb').css({'visibility':'hidden'});--}}
+                {{--}--}}
+                {{--else{--}}
+                    {{--$('#navbar').css({'visibility':'hidden'});--}}
+                    {{--$('#navb').css({'visibility':'visible'});--}}
+                    {{--$('#navb').css({'position':'fixed'});--}}
+                {{--}--}}
+                    {{--}--}}
+            {{--);--}}
+        {{--});--}}
+
+    {{--</script>--}}
     @yield('script')
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>

@@ -82,7 +82,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $details = $request->all();
-        dd($details['latitude']);
+
         if (array_key_exists('logo', $details)) {
             $file = $details['logo'];
             $destinationPath = public_path() . '/public/upload/';
@@ -111,8 +111,9 @@ class EventController extends Controller
         }
 
 
-            $details['user_id'] = auth()->user()->id;
+        $details['user_id'] = auth()->user()->id;
         $event              = $this->event->create($details);
+        dd($details);
 
         return redirect()->route('events.show', $event->id);
     }

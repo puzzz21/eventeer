@@ -14,11 +14,11 @@
 
     <div class="row text-center" id="sec">
 
-        <p>Click the button to get your coordinates.</p>
+        {{--<p>Click the button to get your coordinates.</p>--}}
 
-        <button onclick="getLocation()">Try It</button>
+        {{--<button onclick="getLocation()">Try It</button>--}}
 
-        <p id="demo"></p>
+        {{--<p id="demo"></p>--}}
 
         <h1>your upcoming events</h1> <br/>
         @foreach($going as $a)
