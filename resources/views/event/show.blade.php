@@ -136,7 +136,8 @@
 </div>
 @endsection
 @section('script')
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    {{--<script src="http://maps.googleapis.com/maps/api/js"></script>--}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0WD0EXUROBRkzi4cwJYZETuzDzBPQUgw&callback=initMap"></script>
     <script src="{{asset('js/jquery.datetimepicker.full.min.js')}}"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>

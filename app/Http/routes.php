@@ -14,7 +14,9 @@
 Route::get('/', function () {
     return view('home');
 });
-
+Route::get('/rad',function(){
+   return view('rad');
+});
 Route::get('/',[
     'as'=>'home',
     'uses'=>'Event\EventController@hom'
@@ -45,7 +47,6 @@ Route::get('/upcoming','Event\EventController@upcoming');
 Route::get('event',function(){
 	return view('eventpage');
 });
-Route::get('/radius','Event\EventController@radius');
 Route::get('create',function(){
    return view('create');
 });
@@ -56,3 +57,4 @@ Route::get('/home', 'HomeController@index');
      'as' => 'search',
      'uses' => 'Event\EventController@search'
  ]);
+Route::post('/radius',['as' => 'radius', 'uses' => 'Event\EventController@radSearch']);

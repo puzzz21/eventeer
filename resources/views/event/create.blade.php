@@ -18,11 +18,23 @@
 
         #fnt {
             color: #616161;
-            font-size: 15px;
+            font-size: 16px;
         }
 
         #cardTag {
             padding: 5px;
+        }
+        #left{
+            padding:10px;
+        }
+        #right{
+            padding:50px;
+        }
+        body{
+            background:#eceff1;
+        }
+        .card{
+            background:white;
         }
     </style>
 @endsection
@@ -34,15 +46,14 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
 
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-block">
+                <div class="col-md-3" id="left">
+
 
                             <br/>
 
                             <div class="form-group">
-                                <label for="tags" class="col-md-3 control-label" id="fnt">Tags</label>
-                                <div class="col-md-8">
+
+                                <div class="col-md-8" style="margin-left:55px;">
                                     <select id="tags" multiple="multiple" name="tags[]">
                                     </select>
                                 </div>
@@ -50,44 +61,45 @@
                             <br/>
 
 
-                            <div class="form-group" id="fnt">
-                                <label for="event_type" class="col-md-4 control-label" id="fnt">Categories</label>
-                                <fieldset class="form-group">
-                                    <label><input type="checkbox" name="event_type" value="music"> music</label>
+                            <div class="col-md-8 form-group" id="fnt" style="margin-left:50px;">
+                                <input type="text" class="form-control" size="30" placeholder="categories" name="categories" id="cat" >
+
+                                <fieldset class="form-group" id="catChoices">
+                                    <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="technology"> technology</label>
+                                    <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="sports & wellness"> sports & wellness</label>
+                                    <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="food & drinks">food & drinks</label>
+                                    <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="arts">arts</label>
+                                    <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="classes">classes</label>
+                                    <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="parties">parties</label>
+                                    <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="networking">networking</label>
+                                    <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
                                     <br/>
-                                    <label><input type="checkbox" name="event_type" value="causes">causes</label>
+                                    <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
                                 </fieldset>
-                                <div class="file-field" style="margin-left:18px;">
-                                    <div class="btn btn-primary col-md-11">
+                                <div class="file-field">
+                                    <div class="btn col-md-12" style="background:#4B515D;">
                                         <span>Choose image for your event</span>
-                                        <input type="file" name="logo" value="{{ old('logo') }}">
+                                        <input type="file" name="logo" value="{{ old('logo') }}" accept='image/*'>
                                     </div>
                                 </div>
                             </div>
 
 
-                        </div>
-
-                    </div>
 
                 </div>
                 <div class="col-md-9">
+                    <div class="card" id="right">
+                        <div class="card-block">
+
                     <div class="md-form">
-                        <input type="text" id="title" name="event_name" class="form-control" value="{{ old('event_name') }}">
+                        <input type="text" id="title" name="event_name" class="form-control" value="{{ old('event_name') }}" required="true">
                         <label for="title">Event Title</label>
                     </div>
                     <div class="row">
@@ -104,37 +116,28 @@
                             <div class="md-form">
                                 <label for="event_end_datetime">Event End Date/Time</label>
 
-                                <input type="text" required="true" class="form-control datetimepicker3" name="event_end_datetime" value="{{ old('event_end_datetime') }}">
+                                <input type="text" required="true" class="form-control datetimepicker3" name="event_end_datetime" value="{{ old('event_end_datetime') }}" required="true">
 
                             </div>
                         </div>
                     </div>
+                            <div class="row">
 
-                    <div class="md-form">
-                        <textarea id="abc" style="overflow-y: scroll;resize: none; height:150px" name="event_name" class="md-textarea" rows="10" value="{{ old('event_name') }}"></textarea>
-                        <label for="abc">Event Desciption</label>
-                    </div>
+                            <div class="form-group" style="margin-left:15px;float:left;">
 
-
-                    <div class="card">
-                        <div class="card-block">
-                            <div class="form-header default-color" style="height:50px;color:white;text-align: center;">
-                                <h3>Location:</h3>
-                            </div>
-                            <br/>
-                            <br/>
-                            <label class="col-md-4 control-label" for="country" id="fnt">Countries</label>
+                                <label  class="control-label" for="country" id="fnt" >Countries</label>
 
 
-                            <div class="md-form">
-
-
-                                <select name="country" class="countries" id="countryId">
+                                <select name="country" class="countries" id="countryId" style="margin-left:20px;">
                                     <option value="">Select Country</option>
                                 </select>
 
+                                </div>
+
+
                             </div>
-                            <div class="form-group">
+                            <div class="row">
+                            <div class="form-group"  style="margin-left:0px;float:left;">
                                 <label class="col-md-4 control-label" for="address" id="fnt">States</label>
                                 <div class="col-md-6">
 
@@ -143,7 +146,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                                </div>
+                            <div class="row">
+                            <div class="form-group"  style="margin-left:0px;padding-left:0px;float:left;">
                                 <label class="col-md-4 control-label" for="city" id="fnt">City</label>
                                 <div class="col-md-6">
 
@@ -152,18 +157,26 @@
                                     </select>
                                 </div>
                             </div>
-
-
-                            <div class="form-group" id="fnt">
-                                <label for="venue" class="col-md-4 control-label" id="fnt">Venue</label>
-                                <div class="col-md-6">
-                                    <input id="venue" type="text" class="form-control" name="venue" value="{{ old('venue') }}">
                                 </div>
-                            </div>
+                            <br/>
+                            <div class="row">
 
-                        </div>
+                            <div class="md-form" style="margin-left:15px;float:left;">
+                                <label for="venue" class="control-label" >Venue</label>
 
+                                    <input id="venue" type="text" class="form-control" name="venue" value="{{ old('venue') }}" required="true">
+
+                            </div></div>
+
+
+                            <div class="md-form">
+                        <textarea id="abc" style="overflow-y: scroll;resize: none; height:150px" name="description" class="md-textarea" rows="10" value="{{ old('event_name') }}" required="true"></textarea>
+                        <label for="abc">Event Desciption</label>
                     </div>
+
+
+
+
 
 
                     <div class="form-group" style="margin-left:5px;">
@@ -176,11 +189,11 @@
 
                     </div>
 
-                    <div class="form-group" style="margin-left:5px;">
-                        <label for="event_type" id="fnt">Event Type</label>
-                        <label><input type="radio" name="event_type" style="margin-left:18px;" id="fnt"> private</label>
-                        <label><input type="radio" name="event_type" style="margin-left:180px;" id="fnt"> public</label>
-                    </div>
+                    {{--<div class="form-group" style="margin-left:5px;">--}}
+                        {{--<label for="event_type" id="fnt">Event Type</label>--}}
+                        {{--<label><input type="radio" name="event_type" style="margin-left:18px;" id="fnt" > private</label>--}}
+                        {{--<label><input type="radio" name="event_type" style="margin-left:180px;" id="fnt"> public</label>--}}
+                    {{--</div>--}}
 
                     <div class="md-form">
                         <label for="special_requirements">Special Requirements</label>
@@ -190,6 +203,7 @@
                     </div>
                     <input type="hidden" name="latitude" id="lat">
                     <input type="hidden" name="longitude" id="lng">
+                    <input type="hidden" name="checked[]" id="che" multiple="multiple">
 
 
                     <div class="form-group">
@@ -202,179 +216,12 @@
                     </div>
 
                 </div>
+
+                    </div>
+                </div>
             </form>
         </div>
-        {{--<div class="col-md-10 col-md-offset-1">--}}
-
-
-        {{--@if (isset($errors))--}}
-        {{--@foreach ($errors as $error)--}}
-        {{--<span class="help-block">--}}
-        {{--<strong>{{ $error }}</strong>--}}
-        {{--</span>--}}
-        {{--@endforeach--}}
-        {{--@endif--}}
-
-
-        {{--<form class="form-horizontal" role="form" method="POST" action="{{ route('events.store') }}" enctype="multipart/form-data">--}}
-        {{--{{ csrf_field() }}--}}
-        {{--{!! csrf_field() !!}--}}
-        {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-
-        {{--<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">--}}
-        {{--<label for="event_name" class="col-md-4 control-label">Name</label>--}}
-
-        {{--<div class="col-md-6">--}}
-        {{----}}
-        {{--<input type="text" class="form-control" name="event_name" value="{{ old('event_name') }}">--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-
-
-        {{--<div class="form-group">--}}
-        {{--<label for="event_date" class="col-md-4 control-label">Registration end date</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<input type="text" class="form-control datetimepicker3" name="event_date" value="{{ old('event_date') }}">--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="event_start_datetime" class="col-md-4 control-label">Event Start Date/Time</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<input type="text" class="form-control datetimepicker3" name="event_start_datetime" value="{{ old('event_start_datetime') }}">--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="event_end_datetime" class="col-md-4 control-label">Event End Date/Time</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<input type="text" class="form-control datetimepicker3" name="event_end_datetime" value="{{ old('event_end_datetime') }}">--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="logo" class="col-md-4 control-label">Logo</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<input type="file" class="form-control" name="logo" value="{{ old('logo') }}">--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="description" class="col-md-4 control-label">Event Description</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<textarea name="description" cols="50" rows="10" id="desc"></textarea>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="special_requirements" class="col-md-4 control-label">Special Requirements</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<textarea name="special_requirements" class="form-control"></textarea>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="price" class="col-md-4 control-label">Price</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<label><input type="radio" name="price" value="free"> free</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="price" value="paid" id="paid"> paid</label>--}}
-
-        {{--<input type="text" name="price" class="form-control" id="price"></textarea>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="event_type" class="col-md-4 control-label">Categories</label>--}}
-        {{--<div class="checkbox col-sm-4">--}}
-        {{--<label><input type="radio" name="event_type" value="music"> music</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="technology"> technology</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="sports & wellness"> sports & wellness</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="food & drinks">food & drinks</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="arts">arts</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="classes">classes</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="parties">parties</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="networking">networking</label>--}}
-        {{--<br/>--}}
-        {{--<label><input type="radio" name="event_type" value="causes">causes</label>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="event_type" class="col-md-4 control-label">Event Type</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<label><input type="radio" name="event_type" value="music"> private</label>--}}
-        {{--<label><input type="radio" name="event_type" value="technology"> public</label>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--<div class="form-group">--}}
-        {{--<label class="col-md-4 control-label" for="tags">Countries</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<select name="country" class="countries" id="countryId">--}}
-        {{--<option value="">Select Country</option>--}}
-        {{--</select>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-
-
-
-        {{--<div class="form-group">--}}
-        {{--<label class="col-md-4 control-label" for="address">States</label>--}}
-        {{--<div class="col-md-6">--}}
-
-        {{--<select name="address" class="states" id="stateId">--}}
-        {{--<option value="">Select State</option>--}}
-        {{--</select>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--<div class="form-group">--}}
-        {{--<label class="col-md-4 control-label" for="city">City</label>--}}
-        {{--<div class="col-md-6">--}}
-
-        {{--<select name="city" class="cities" id="cityId">--}}
-        {{--<option value="">Select City</option>--}}
-        {{--</select>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--<div class="form-group">--}}
-        {{--<label for="tags" class="col-md-4 control-label">Tags</label>--}}
-        {{--<div class="col-md-6">--}}
-        {{--<select id="tags" multiple="multiple" name="tags[]">--}}
-        {{--</select>--}}
-        {{--</div>--}}
-
-        {{--</div>--}}
-        {{--<input name="bbb" id="bbb" type="hidden">--}}
-
-        {{--<input type="hidden" name="latitude" id="lat">--}}
-        {{--<input type="hidden" name="longitude" id="lng">--}}
-
-
-
-        {{--<div class="form-group">--}}
-        {{--<div class="col-md-6 col-md-offset-4">--}}
-        {{--<button type="submit" class="btn btn-primary" id="sub">--}}
-        {{--<i class="fa fa-btn fa-user"></i> Create--}}
-        {{--</button>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-
-        {{--</form>--}}
-
-
-    </div>
+           </div>
 
 @endsection
 @section('script')
@@ -412,12 +259,27 @@
         }
 
         $(document).ready(function () {
+            $("#catChoices").hide();
+            $("#cat").click(function(){
+                        $("#catChoices").slideToggle("slow");
+                    }
+            );
+            $("#cat").keypress(function(event){
+                event.preventDefault();
+            });
+
             $('#sub').submit(function (event) {
                 var form = $(this);
                 event.preventDefault();
+                var abb = [];
+                $.each($("input[name='event_type']:checked"),
+                function(){
+                    abb.push($(this).val());
+                });
+                $('#che').val(abb);
 
-                var address = $('#venue').val();
 
+                   var address = $('#venue').val();
                 getLocation(address, function (latitude, longitude, form) {
                     $('#lat').val(latitude);
                     $('#lng').val(longitude);
