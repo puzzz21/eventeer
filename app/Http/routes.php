@@ -14,9 +14,7 @@
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/rad',function(){
-   return view('rad');
-});
+
 Route::get('/',[
     'as'=>'home',
     'uses'=>'Event\EventController@hom'
@@ -57,4 +55,8 @@ Route::get('/home', 'HomeController@index');
      'as' => 'search',
      'uses' => 'Event\EventController@search'
  ]);
-Route::post('/radius',['as' => 'radius', 'uses' => 'Event\EventController@radSearch']);
+Route::post('/radSearch/',[
+    'as'=>'radSearch',
+    'uses'=>'Event\EventController@radSearch'
+]);
+Route::post('/radius',['as' => 'radius', 'uses' => 'Event\EventController@radius']);

@@ -125,10 +125,10 @@
 
                             <div class="form-group" style="margin-left:15px;float:left;">
 
-                                <label  class="control-label" for="country" id="fnt" >Countries</label>
+                                <label  class="control-label" for="country" id="fnt" >Country</label>
 
 
-                                <select name="country" class="countries" id="countryId" style="margin-left:20px;">
+                                <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
                                     <option value="">Select Country</option>
                                 </select>
 
@@ -138,7 +138,7 @@
                             </div>
                             <div class="row">
                             <div class="form-group"  style="margin-left:0px;float:left;">
-                                <label class="col-md-4 control-label" for="address" id="fnt">States</label>
+                                <label class="col-md-4 control-label" for="address" id="fnt">State</label>
                                 <div class="col-md-6">
 
                                     <select name="address" class="states" id="stateId">
@@ -324,6 +324,7 @@
             $('#bbb').val(opt_vals);
 
         });
+
 
 
         //$(document)ready(

@@ -253,8 +253,7 @@ class EventController extends Controller
             "SELECT * FROM `events` WHERE ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS( $lat) ) + COS( RADIANS( `latitude` ) )
 * COS( RADIANS( $lat )) * COS( RADIANS( `longitude` ) - RADIANS( $lng )) ) * 6380 < $rad"
         );
-
-        return view('home', compact('lat', 'lng', 'rad', 'a'));
+        return view('radiusPage', compact('lat', 'lng', 'rad', 'a'));
     }
 
     public function email(Request $request)
@@ -377,6 +376,7 @@ class EventController extends Controller
 
         return view('event.searchPage', compact('result'));
     }
+
     public function radSearch(Request $request){
         $radius = $request->radius;
         $tags = $request->tags;
@@ -387,7 +387,7 @@ class EventController extends Controller
 
         $a = DB::select(
             "SELECT * FROM `events` WHERE ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS( $lat) ) + COS( RADIANS( `latitude` ) )
-* COS( RADIANS( $lat )) * COS( RADIANS( `longitude` ) - RADIANS( $lng )) ) * 6380 < 10"
+* COS( RADIANS( $lat )) * COS( RADIANS( `longitude` ) - RADIANS( $lng )) ) * 6380 < $radius"
         );
 
         if($checked== '%music%') {
@@ -415,7 +415,9 @@ class EventController extends Controller
             $a = $a->where('event_type', 'LIKE', '%' . 'parties' . '%')->get();
 
         }
-        return view('radiusPage', compact('lat', 'lng', 'rad', 'a'));
+
+        return response()->json(json_encode(['lat' => $lat, 'lng' => $lng, 'radius' => $radius, 'a' => $a]));
+//        return view('radiusPage', compact('lat', 'lng', 'rad', 'a'));
 
     }
 

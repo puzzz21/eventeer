@@ -1,20 +1,14 @@
 @extends('layouts.app')
-
 <br/>
 <br/>
 <br/>
 <div class="container-fluid">
-
-
-
-    <div class="row">
+<div class="row">
 <div class="col-md-2">
     <br/>
     <br/>
-<form class="form" method="post" role="form" id="sub">
-    {{ csrf_field() }}
-    {!! csrf_field() !!}
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+<div class="form">
+    <input type="hidden" name="_token" id ='token' value="{{ csrf_token() }}">
     <div class="md-form">
         <label for="radius" class="label-control">radius (km)</label>
     <input type="text" class="form-control" size="30" id="radius" name="radius">
@@ -48,8 +42,8 @@
     <input type="text" class="form-control datetimepicker3" size="30" id="search" name="searchDate" value="{{ old('searchDate')}}">
    </div>
     <input type="hidden" name="checked[]" id="che" multiple="multiple">
-    <input type="submit" class="btn btn-primary" id="submit"></input>
-</form>
+    <button class="btn btn-primary" id="submit"></button>
+</div>
 
 </div>
 <div class="col-md-10">
@@ -104,7 +98,7 @@
 
 {{--<div id="ma" style="width:100%; height: 100%;"></div>--}}
 @section('script')
-   <script src="{{asset('js/radius.js')}}"></script>
+    <script src="{{asset('js/radius.js')}}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0WD0EXUROBRkzi4cwJYZETuzDzBPQUgw&callback=initMap"></script>
     <script src="{{asset('js/jquery.datetimepicker.full.min.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/jquery.datetimepicker.css')}}"/ >
@@ -139,25 +133,9 @@
             $("#cat").keypress(function(event){
                 event.preventDefault();
             });
-            $('#sub').submit(function (event) {
-                var form = $(this);
-                event.preventDefault();
-                var abb = [];
-                $.each($("input[name='event_type']:checked"),
-                        function(){
-                            abb.push($(this).val());
-                        });
-                $('#che').val(abb);
-
-                form.unbind(event);
-
-                form.trigger('submit');
-            });
         });
     </script>
     <script>
-
-
         var locations = [
                 @foreach($a as $event)
             ["{{ $event->id }}", "{{ $event->event_name }}", "{{ $event->venue }}", "{{ $event->latitude }}", "{{ $event->longitude }}"],
