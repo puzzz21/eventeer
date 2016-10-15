@@ -8,7 +8,7 @@
     <br/>
     <br/>
 <div class="form">
-    <input type="hidden" name="_token" id ='token' value="{{ csrf_token() }}">
+    <input type="hidden" id="token" value="{{ csrf_token() }}">
     <div class="md-form">
         <label for="radius" class="label-control">radius (km)</label>
     <input type="text" class="form-control" size="30" id="radius" name="radius">
@@ -42,7 +42,7 @@
     <input type="text" class="form-control datetimepicker3" size="30" id="search" name="searchDate" value="{{ old('searchDate')}}">
    </div>
     <input type="hidden" name="checked[]" id="che" multiple="multiple">
-    <button class="btn btn-primary" id="submit"></button>
+    <button class="btn btn-primary" id="submit">Search</button>
 </div>
 
 </div>

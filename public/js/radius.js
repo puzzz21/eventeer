@@ -1,8 +1,5 @@
 $(document).ready(function () {
-    $('#submit').on('click',function (event) {
-        event.preventDefault();
-        var form = $(this);
-
+    $('#submit').on('click', function (event) {
         var abb = [];
 
         $.each($("input[name='event_type']:checked"),
@@ -16,15 +13,15 @@ $(document).ready(function () {
             url: '/radSearch',
             type: 'POST',
             data: {
-                '_token' : '{{ csrf_token() }}',
+                '_token': $('#token').val(),
                 'radius': $('#radius').val(),
                 'tags': $('#tags').val(),
                 'checked': $('#che').val(),
                 'searchDate': $('#search').val()
             }
         }).success(function (response) {
-            // TODO: map stuff.
             response = JSON.parse(response);
+
             var lat = response.lat;
             var lng = response.lng;
             var radius = response.radius;
@@ -34,10 +31,6 @@ $(document).ready(function () {
                 center: new google.maps.LatLng(lat, lng),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
-
-            console.log(JSON.parse(response));
         });
-
-        form.unbind(event);
     });
 });
