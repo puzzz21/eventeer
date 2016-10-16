@@ -379,14 +379,13 @@ class EventController extends Controller
 
     public function radSearch(Request $request)
     {
-        $radius     = $request->radius;
-
+        $radius     = $request->radius ? $request->radius : 1;
         $tags       = $request->tags;
         $categories = $request->checked;
         $searchDate = $request->searchDate;
 
-        $lat        = $request->lat;
-        $lng        = $request->lng;
+        $lat = $request->lat;
+        $lng = $request->lng;
 
         $matches = DB::select(
             "SELECT * FROM `events` WHERE ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS( $lat) ) + COS( RADIANS( `latitude` ) )
@@ -415,12 +414,12 @@ class EventController extends Controller
         foreach ($events as $event) {
             $eventCategories = explode(',', $event->event_type);
 
-            if ($this->hasCategory($eventCategories, $categories) || $this->isWithin($date, $event)) {
+            if ($this->hasCategory($eventCategories, $categories) || $this->isWithin($date, $event) || $this->isTagged($formData['tags'], $event)) {
                 $filteredEvents[] = $event;
             }
         }
 
-        return $filteredEvents;
+        return $filteredEvents ? $filteredEvents : $events;
     }
 
     /**
@@ -449,6 +448,17 @@ class EventController extends Controller
         $date = strtotime($date);
 
         return (($date >= strtotime($event->event_start_datetime)) && ($date <= strtotime($event->event_end_datetime)));
+    }
+
+    /**
+     * Check if an Event is tagged with a specific tag.
+     * @param $tag
+     * @param $event
+     * @return bool
+     */
+    protected function isTagged($tag, $event)
+    {
+        return $tag ? array_has(array_flip(explode(',', $event->tags)), $tag) : false;
     }
 
 }
