@@ -242,9 +242,8 @@ class EventController extends Controller
     {
 
         $abc = $request->all();
-
-        $lat = 27.7011066;
-        $lng = 85.31291750000003;
+        $lat = $abc['lat'];
+        $lng = $abc['lng'];
         $rad = $abc['radius'];
         if ($rad == "") {
             $rad = 1;
@@ -384,11 +383,15 @@ class EventController extends Controller
         $searchDate=$request->searchDate;
         $lat = 27.7011066;
         $lng = 85.31291750000003;
+        if($radius==""){
+            $radius=1;
+        }
 
         $a = DB::select(
             "SELECT * FROM `events` WHERE ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS( $lat) ) + COS( RADIANS( `latitude` ) )
 * COS( RADIANS( $lat )) * COS( RADIANS( `longitude` ) - RADIANS( $lng )) ) * 6380 < $radius"
         );
+
 
         if($checked== '%music%') {
             $a = $a->where('event_type', 'LIKE', '%' . 'music' . '%')->get();
