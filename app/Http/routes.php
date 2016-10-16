@@ -19,7 +19,10 @@ Route::get('/',[
     'as'=>'home',
     'uses'=>'Event\EventController@hom'
 ]);
-Route::resource('profile', 'profileController');
+Route::get('profile', 'userController@profile');
+Route::post('profile','userController@updateAvatar');
+Route::post('/profileUpdate',['as' => 'profileUpdate', 'uses' => 'userController@profileUpdate']);
+
 
 Route::get('/rsvp/', [
     'as' => 'rsvp',

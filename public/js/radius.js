@@ -25,11 +25,13 @@ $(document).ready(function () {
             response = JSON.parse(response);
 
             var lat = response.lat;
+
             var lng = response.lng;
             var radius = response.radius;
-            var a= response.a;
-            var locations=[];
 
+            var a= response.a;
+
+            var locations=[];
             for(var i=0; i<a.length;i++) {
                 locations.push([a[i]['id'], a[i]['event_name'], a[i]['venue'], a[i]['latitude'], a[i]['longitude']]);
             }

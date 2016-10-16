@@ -285,11 +285,12 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                <img src="/images/uploads/avatar/{{ Auth::user()->avatar }}" class="img-circle" height=25px width=25px style="top:1px;"/>
+                                <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('profile.create') }}"><i class="fa fa-btn fa-sign-out"></i>Create Profile</a></li>
+                                <li><a href="{{ url('/profile') }}"><i class="fa fa-btn fa-user"></i>Profile Setting</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -332,5 +333,11 @@
     {{--</script>--}}
     @yield('script')
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <link rel="stylesheet" type="text/css" href="{{asset('css/mdb.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('mdb.min.css')}}"/>
+    <script src="{{asset('js/mdb.js')}}"></script>
+    <script src="{{asset('js/mdb.min.js')}}"></script>
+    <script src="{{asset('js/tether.js')}}"></script>
+    <script src="{{asset('js/tether.min.js')}}"></script>
 </body>
 </html>

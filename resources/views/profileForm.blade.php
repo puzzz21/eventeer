@@ -1,88 +1,307 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
-          crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-            crossorigin="anonymous"></script>
+@extends('layouts.app')
+@section('style')
     <style>
-        .btn {
-            left: 40%;
-            margin-right: -60%;
+
+        .hovereffect {
+            width: 74%;
+            height: 100%;
+            float: left;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            cursor: default;
+        }
+
+        .hovereffect .overlay {
+            width: 80%;
+            position: absolute;
+            overflow: hidden;
+            left: 0;
+            top: auto;
+            bottom: 0;
+            padding: 1em;
+            height: 7.75em;
+            background: white;
+            color: #3c4a50;
+            -webkit-transition: -webkit-transform 0.35s;
+            transition: transform 0.35s;
+            -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+        }
+
+        .hovereffect img {
+            display: block;
+            position: relative;
+            -webkit-transition: -webkit-transform 0.35s;
+            transition: transform 0.35s;
+        }
+
+        .hovereffect:hover img {
+            -webkit-transform: translate3d(0, -10%, 0);
+            transform: translate3d(0, -10%, 0);
+        }
+
+        .hovereffect h2 {
+            text-transform: uppercase;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            font-size: 17px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            float: left;
+            margin: 0px;
+            display: inline-block;
+        }
+
+        .hovereffect a.info {
+            display: inline-block;
+            text-decoration: none;
+            padding: 7px 14px;
+            text-transform: uppercase;
+            color: #fff;
+            border: 1px solid #fff;
+            margin: 50px 0 0 0;
+            background-color: transparent;
+        }
+
+        .hovereffect a.info:hover {
+            box-shadow: 0 0 5px #fff;
+        }
+
+        .hovereffect p.icon-links a {
+            float: right;
+            color: #3c4a50;
+            font-size: 1.4em;
+        }
+
+        .hovereffect:hover p.icon-links a:hover,
+        .hovereffect:hover p.icon-links a:focus {
+            color: #252d31;
+        }
+
+        .hovereffect h2,
+        .hovereffect p.icon-links a {
+            -webkit-transition: -webkit-transform 0.35s;
+            transition: transform 0.35s;
+            -webkit-transform: translate3d(0, 200%, 0);
+            transform: translate3d(0, 200%, 0);
+        }
+
+        .hovereffect p.icon-links a span:before {
+            display: inline-block;
+            padding: 8px 10px;
+            speak: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hovereffect:hover .overlay,
+        .hovereffect:hover h2,
+        .hovereffect:hover p.icon-links a {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .hovereffect:hover h2 {
+            -webkit-transition-delay: 0.05s;
+            transition-delay: 0.05s;
+        }
+
+        .hovereffect:hover p.icon-links a:nth-child(3) {
+            -webkit-transition-delay: 0.1s;
+            transition-delay: 0.1s;
+        }
+
+        .hovereffect:hover p.icon-links a:nth-child(2) {
+            -webkit-transition-delay: 0.15s;
+            transition-delay: 0.15s;
+        }
+
+        .hovereffect:hover p.icon-links a:first-child {
+            -webkit-transition-delay: 0.2s;
+            transition-delay: 0.2s;
         }
     </style>
+@endsection
+@section('content')
+    <div class="container-fluid">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div class="col-md-3 col-md-offset-1">
+                <div class="row">
+                    <div class="hovereffect">
+                        <img src="/images/uploads/avatar/{{ $user->avatar }}" style="width:270px; height:270px;" class="img-rounded"/>
 
-</head>
-<body>
-<div class="jumbotron text-center"><h2>Create profile</h2></div>
-<form class="form-horizontal" role="form" method="POST" action="{{ route('profile.store') }}" enctype="multipart/form-data">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="fname">name:</label>
-        <div class="col-sm-4">
-            <input type="text" name="name" size=10 placeholder="name" class="form-control"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="logo" class="col-sm-2 control-label">logo</label>
-        <div class="col-md-4">
-            <input name="logo" type="file" class="form-control"/>
-        </div>
-    </div>
-    {{--<div class="form-group">--}}
-        {{--<label class="control-label col-sm-2" for="uname">username:</label>--}}
-        {{--<div class="col-sm-4">--}}
-            {{--<input type="text" name="username" size=10 placeholder="username" class="form-control"/>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="form-group">--}}
-        {{--<label class="control-label col-sm-2" for="uname">password:</label>--}}
-        {{--<div class="col-sm-4">--}}
-            {{--<input type="password" name="password" size=10 placeholder="password" class="form-control"/>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="address">address:</label>
-        <div class="col-sm-4">
-            <input type="text" name="address" size=10 placeholder="location" class="form-control"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="phone_number">contact number:</label>
-        <div class="col-sm-4">
-            <input type="text" name="phone_number" size=10 placeholder="contact number" class="form-control"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="interested_events">interested events:</label>
-        <!-- <input type="text" name = "interested_events" size=10 placeholder="interested events" class="form-control"/> -->
-        <div class="checkbox col-sm-4">
-            <label><input type="checkbox" name="music"> music</label>
-            <br/>
-            <label><input type="checkbox" name="technology"> technology</label>
-            <br/>
-            <label><input type="checkbox" name="sports"> sports & wellness</label>
-            <br/>
-            <label><input type="checkbox" name="food">food & drinks</label>
-            <br/>
-            <label><input type="checkbox" name="arts">arts</label>
-            <br/>
-            <label><input type="checkbox" name="classes">classes</label>
-            <br/>
-            <label><input type="checkbox" name="parties">parties</label>
-            <br/>
-            <label><input type="checkbox" name="networking">networking</label>
-            <br/>
-            <label><input type="checkbox" name="causes">causes</label>
-        </div>
-    </div>
-    <div class="form-group">
-        <input type="submit" name="submit" class="btn btn-success col-sm-1"/>
-    </div>
+                        <div class="overlay">
+                            <form id="frm" enctype="multipart/form-data" action="/profile" method="POST">
+                                <input type="file" name="avatar">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="submit" class="btn btn-default" value="upload new picture">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h2> {{ $user->name }}</h2>
+                    <hr>
+                    <div class="col-md-5">
+                        <ul class="nav" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tab"><i class="fa fa-user"></i> Profile Setting</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#password" role="tab"><i class="fa fa-lock"></i> Password</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-2">
+                <div class="tab-content">
 
-</form>
-</body>
-</html>
+                    <!--Panel 1-->
+                    <div class="tab-pane fade in active" id="profile" role="tabpanel">
+                        <br>
+                        <form role="form" method="POST" id="sub" action="{{ route('profileUpdate') }}" enctype="multipart/form-data">
+                            {!! csrf_field() !!}
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                            <h2>General Information</h2>
+                            <br/>
+                            <div class="md-form">
+                                <input type="text" value="{{ Auth::user()->name }}" name="name" class="form-control">
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="md-form">
+                                <label for="About_you">About you</label>
+                                <textarea name="About_you" style="overflow-y: scroll;resize: none; height:120px" rows="7" class="md-textarea"></textarea>
+                            </div>
+                            <div class="md-form">
+                                <input type="text" name="contact" class="form-control">
+                                <label for="contact">Contact</label>
+                            </div>
+
+                            <input type="text" class="form-control" size="30" value="fields of your interests" name="categories" id="cat">
+
+                            <fieldset class="form-group" id="catChoices">
+                                <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
+                                <br/>
+                                <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
+                            </fieldset>
+                            <hr>
+                            <h2>Home Address</h2>
+
+                            <div class="md-form">
+                                <input type="text" name="address" class="form-control">
+                                <label for="address">Address</label>
+                            </div>
+                            <div class="row">
+                                <div class="form-group" style="margin-left:15px;float:left;">
+                                    <label class="control-label" for="country" id="fnt">Country</label>
+                                    <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
+                                        <option value="">Select Country</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group" style="margin-left:0px;float:left;">
+                                    <label class="col-md-4 control-label" for="address" id="fnt">State</label>
+                                    <div class="col-md-6">
+
+                                        <select name="state" class="states" id="stateId">
+                                            <option value="">Select State</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group" style="margin-left:0px;padding-left:0px;float:left;">
+                                    <label class="col-md-4 control-label" for="city" id="fnt">City</label>
+                                    <div class="col-md-6">
+
+                                        <select name="city" class="cities" id="cityId">
+                                            <option value="">Select City</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <input type="hidden" name="checked[]" id="che" multiple="multiple">
+
+                            <input type="submit" class="btn btn-default" value="update">
+
+                        </form>
+
+
+                    </div>
+                    <!--/.Panel 1-->
+
+                    <!--Panel 2-->
+                    <div class="tab-pane fade" id="password" role="tabpanel">
+                        <br>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus reiciendis molestiae placeat unde eos molestias. Quisquam aperiam,
+                            pariatur. Tempora, placeat ratione
+                            porro voluptate odit minima.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus reiciendis molestiae placeat unde eos molestias. Quisquam aperiam,
+                            pariatur. Tempora, placeat ratione
+                            porro voluptate odit minima.</p>
+
+                    </div>
+                    <!--/.Panel 2-->
+
+
+                </div>
+            </div>
+        </div>
+        @endsection
+        @section('script')
+            <script src="http://iamrohit.in/lab/js/location.js"></script>
+            <script>
+                $(document).ready(function () {
+
+                    $('#sub').submit(function (event) {
+                        var form = $(this);
+                        event.preventDefault();
+                        var abb = [];
+                        $.each($("input[name='event_type']:checked"),
+                                function () {
+                                    abb.push($(this).val());
+                                });
+                        $('#che').val(abb);
+                        form.unbind(event);
+
+                        form.trigger('submit');
+                    });
+
+                });
+                $("#catChoices").hide();
+                $("#cat").click(function () {
+                            $("#catChoices").slideToggle("slow");
+                        }
+                );
+                $("#cat").keypress(function (event) {
+                    event.preventDefault();
+                });
+
+            </script>
+@endsection
