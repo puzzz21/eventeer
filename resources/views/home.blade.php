@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row" id="bg">
-            <center>
-                Eventeer
-                <p>
-                <h1>create, explore and inspire</h1>
-                </p>
-                <button type="button" class="btn btn-default" value="create events" style="height:70px;width: 200px"><a href="{{ URL::to('events/create') }}"><h3>CREATE!</h3></a></button>
-            </center>
+        <div class="row text-center" id="bg">
+            Eventeer
+            <h1>Create, Explore and Inspire</h1>
+
+            <a href="{{ route('events.create') }}" class="btn btn-default btn-lg">Create !</a>
+            {{--<button type="button" class="btn btn-default" value="create events" style="height:70px;width: 200px">--}}
+                {{--<a href="{{ URL::to('events/create') }}"><h3>CREATE!</h3>--}}
+                {{--</a></button>--}}
         </div>
 
         <div class="row text-center" id="sec">
@@ -21,6 +21,7 @@
             {{--<p id="demo"></p>--}}
 
             <h1>Events near you!</h1> <br/>
+
             <form class="form-horizontal" role="form" id="sub" method="POST" action="{{ route('radius') }}" enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <input type="text" name="radius" placeholder="enter radius(km)" style="width:200px;font-size:20px;"/>
@@ -208,33 +209,32 @@
         //    });
 
 
-
         $(document).ready(function () {
 
             $("#sub").submit(function (event) {
-              var form = $(this);
+                var form = $(this);
 
 
 //                console.log(e);
                 event.preventDefault();
 
-                getLocation(form,event);
+                getLocation(form, event);
 //            form.unbind(event);
 //            form.trigger('submit');
             });
         });
 
-        function getLocation(form,event) {
+        function getLocation(form, event) {
             if (navigator.geolocation) {
                 navigator.geolocation.watchPosition(showPosition);
-            form.unbind(event);
-                } else {
+                form.unbind(event);
+            } else {
                 alert("Geolocation is not supported by this browser.");
             }
         }
 
         function showPosition(position) {
-                 document.getElementById("lat").value = position.coords.latitude;
+            document.getElementById("lat").value = position.coords.latitude;
             document.getElementById("lng").value = position.coords.longitude;
 
             $('#sub').trigger('submit');

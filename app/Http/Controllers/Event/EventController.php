@@ -126,6 +126,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $details = $request->all();
+
         if (array_key_exists('logo', $details)) {
             $file            = $details['logo'];
             $destinationPath = public_path() . '/public/upload/';
@@ -157,10 +158,8 @@ class EventController extends Controller
             $details['event_type'] = $x;
         }
 
-
         $details['user_id'] = auth()->user()->id;
         $event              = $this->event->create($details);
-
 
         return redirect()->route('events.show', $event->id);
     }
@@ -240,18 +239,20 @@ class EventController extends Controller
 
     public function radius(Request $request)
     {
-
         $abc = $request->all();
         $lat = $abc['lat'];
         $lng = $abc['lng'];
         $rad = $abc['radius'];
+
         if ($rad == "") {
             $rad = 1;
         }
+
         $a = DB::select(
             "SELECT * FROM `events` WHERE ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS( $lat) ) + COS( RADIANS( `latitude` ) )
 * COS( RADIANS( $lat )) * COS( RADIANS( `longitude` ) - RADIANS( $lng )) ) * 6380 < $rad"
         );
+
         return view('radiusPage', compact('lat', 'lng', 'rad', 'a'));
     }
 
@@ -376,52 +377,78 @@ class EventController extends Controller
         return view('event.searchPage', compact('result'));
     }
 
-    public function radSearch(Request $request){
-        $radius = $request->radius;
-        $tags = $request->tags;
-        $checked = $request->checked;
-        $searchDate=$request->searchDate;
-        $lat = 27.7011066;
-        $lng = 85.31291750000003;
-        if($radius==""){
-            $radius=1;
-        }
+    public function radSearch(Request $request)
+    {
+        $radius     = $request->radius;
 
-        $a = DB::select(
+        $tags       = $request->tags;
+        $categories = $request->checked;
+        $searchDate = $request->searchDate;
+
+        $lat        = $request->lat;
+        $lng        = $request->lng;
+
+        $matches = DB::select(
             "SELECT * FROM `events` WHERE ACOS( SIN( RADIANS( `latitude` ) ) * SIN( RADIANS( $lat) ) + COS( RADIANS( `latitude` ) )
 * COS( RADIANS( $lat )) * COS( RADIANS( `longitude` ) - RADIANS( $lng )) ) * 6380 < $radius"
         );
 
+        $events = $this->filterEvents($matches, $request->all());
 
-        if($checked== '%music%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'music' . '%')->get();
-        } elseif ($checked == '%technology%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'technology' . '%')->get();
-        } elseif ($checked == '%sports & wellness%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'sports & wellness' . '%')->get();
-        } elseif ($checked == '%classes%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'classes' . '%')->get();
-
-        } elseif ($checked == '%food & drinks%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'food & drinks' . '%')->get();
-
-        } elseif ($checked == '%arts%'){
-            $a = $a->where('event_type', 'LIKE', '%' . 'arts' . '%')->get();
-
-        } elseif ($checked == '%causes%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'causes' . '%')->get();
-
-        } elseif ($checked == '%networking%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'networking' . '%')->get();
-
-        } elseif ($checked == '%parties%') {
-            $a = $a->where('event_type', 'LIKE', '%' . 'parties' . '%')->get();
-
-        }
-
-        return response()->json(json_encode(['lat' => $lat, 'lng' => $lng, 'radius' => $radius, 'a' => $a]));
+        return response()->json(json_encode(['lat' => $lat, 'lng' => $lng, 'radius' => $radius, 'a' => $events]));
 //        return view('radiusPage', compact('lat', 'lng', 'rad', 'a'));
 
+    }
+
+    /**
+     * Filter Events by categories.
+     * @param array $events
+     * @param       $formData
+     * @return array
+     */
+    protected function filterEvents(array $events, $formData)
+    {
+        $filteredEvents = [];
+        $categories     = $formData['checked'];
+        $date           = $formData['searchDate'];
+
+        foreach ($events as $event) {
+            $eventCategories = explode(',', $event->event_type);
+
+            if ($this->hasCategory($eventCategories, $categories) || $this->isWithin($date, $event)) {
+                $filteredEvents[] = $event;
+            }
+        }
+
+        return $filteredEvents;
+    }
+
+    /**
+     * Check if a given Event's categories falls under the search categories.
+     * @param $eventCategories
+     * @param $categories
+     * @return bool
+     */
+    protected function hasCategory($eventCategories, $categories)
+    {
+        if (count(array_intersect($eventCategories, explode(',', $categories)))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the date falls within the events start date and end date.
+     * @param $date
+     * @param $event
+     * @return bool
+     */
+    protected function isWithin($date, $event)
+    {
+        $date = strtotime($date);
+
+        return (($date >= strtotime($event->event_start_datetime)) && ($date <= strtotime($event->event_end_datetime)));
     }
 
 }

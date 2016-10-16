@@ -9,6 +9,9 @@
     <br/>
 <div class="form">
     <input type="hidden" id="token" value="{{ csrf_token() }}">
+    <input type="hidden" id="lat" value="{{ $lat }}">
+    <input type="hidden" id="lng" value="{{ $lng }}">
+
     <div class="md-form">
         <label for="radius" class="label-control">radius (km)</label>
     <input type="text" class="form-control" size="30" id="radius" name="radius">

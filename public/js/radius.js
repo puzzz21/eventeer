@@ -17,7 +17,9 @@ $(document).ready(function () {
                 'radius': $('#radius').val(),
                 'tags': $('#tags').val(),
                 'checked': $('#che').val(),
-                'searchDate': $('#search').val()
+                'searchDate': $('#search').val(),
+                'lat': $('#lat').val(),
+                'lng': $('#lng').val()
             }
         }).success(function (response) {
             response = JSON.parse(response);
@@ -28,10 +30,9 @@ $(document).ready(function () {
             var a= response.a;
             var locations=[];
 
-                for(var i=0; i<a.length;i++) {
-                    locations.push([a[i]['id'], a[i]['event_name'], a[i]['venue'], a[i]['latitude'], a[i]['longitude']]);
-                }
-
+            for(var i=0; i<a.length;i++) {
+                locations.push([a[i]['id'], a[i]['event_name'], a[i]['venue'], a[i]['latitude'], a[i]['longitude']]);
+            }
 
             var map = new google.maps.Map(document.getElementById('ma'), {
                 zoom: 14,
@@ -48,7 +49,6 @@ $(document).ready(function () {
                     position: new google.maps.LatLng(locations[i][3], locations[i][4]),
                     map: map
                 });
-
 
                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
