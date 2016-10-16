@@ -79,7 +79,6 @@ class EventController extends Controller
 
     public function index()
     {
-
         $mytime = Carbon\Carbon::now();
         $userId = auth()->user()->id;
         $going  = $this->enrollment
@@ -120,7 +119,9 @@ class EventController extends Controller
             ->get()
             ->take(- 4);
 
-        return view('welcome', compact('going', 'maybe'));
+        $events = $this->event->all();
+
+        return view('welcome', compact('going', 'maybe', 'events'));
     }
 
     public function store(Request $request)

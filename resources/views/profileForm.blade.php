@@ -135,7 +135,7 @@
             <div class="col-md-3 col-md-offset-1">
                 <div class="row">
                     <div class="hovereffect">
-                        <img src="/images/uploads/avatar/{{ $user->avatar }}" style="width:270px; height:270px;" class="img-rounded"/>
+                        <img src="/images/uploads/avatar/{{ auth()->user()->avatar }}" style="width:270px; height:270px;" class="img-rounded"/>
 
                         <div class="overlay">
                             <form id="frm" enctype="multipart/form-data" action="/profile" method="POST">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <h2> {{ $user->name }}</h2>
+                    <h2> {{ auth()->user()->name }}</h2>
                     <hr>
                     <div class="col-md-5">
                         <ul class="nav" role="tablist">
@@ -167,90 +167,191 @@
                     <!--Panel 1-->
                     <div class="tab-pane fade in active" id="profile" role="tabpanel">
                         <br>
-                        <form role="form" method="POST" id="sub" action="{{ route('profileUpdate') }}" enctype="multipart/form-data">
-                            {!! csrf_field() !!}
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                            <h2>General Information</h2>
-                            <br/>
-                            <div class="md-form">
-                                <input type="text" value="{{ Auth::user()->name }}" name="name" class="form-control">
-                                <label for="name">Name</label>
-                            </div>
-                            <div class="md-form">
-                                <label for="About_you">About you</label>
-                                <textarea name="About_you" style="overflow-y: scroll;resize: none; height:120px" rows="7" class="md-textarea"></textarea>
-                            </div>
-                            <div class="md-form">
-                                <input type="text" name="contact" class="form-control">
-                                <label for="contact">Contact</label>
-                            </div>
 
-                            <input type="text" class="form-control" size="30" value="fields of your interests" name="categories" id="cat">
-
-                            <fieldset class="form-group" id="catChoices">
-                                <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
+                        @if (isset($profile))
+                            <form role="form" method="POST" id="sub" action="{{ route('profileUpdate') }}" enctype="multipart/form-data">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                                <input type="hidden" name="id" value="{{ $profile->id }}"/>
+                                <h2>General Information</h2>
                                 <br/>
-                                <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
-                                <br/>
-                                <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
-                            </fieldset>
-                            <hr>
-                            <h2>Home Address</h2>
-
-                            <div class="md-form">
-                                <input type="text" name="address" class="form-control">
-                                <label for="address">Address</label>
-                            </div>
-                            <div class="row">
-                                <div class="form-group" style="margin-left:15px;float:left;">
-                                    <label class="control-label" for="country" id="fnt">Country</label>
-                                    <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
-                                        <option value="">Select Country</option>
-                                    </select>
+                                <div class="md-form">
+                                    <input type="text" value="{{ Auth::user()->name }}" name="name" class="form-control">
+                                    <label for="name">Name</label>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group" style="margin-left:0px;float:left;">
-                                    <label class="col-md-4 control-label" for="address" id="fnt">State</label>
-                                    <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="About_you">About you</label>
+                                    <textarea name="About_you" style="overflow-y: scroll;resize: none; height:120px" rows="7" class="md-textarea">{{ $profile->desciption }}</textarea>
+                                </div>
+                                <div class="md-form">
+                                    <input type="text" name="contact" class="form-control" value="{{ $profile->contact }}">
+                                    <label for="contact">Contact</label>
+                                </div>
 
-                                        <select name="state" class="states" id="stateId">
-                                            <option value="">Select State</option>
+                                <input type="text" class="form-control" size="30" value="fields of your interests" name="categories" id="cat">
+
+                                @if (isset($interestedEvents))
+                                    <fieldset class="form-group" id="catChoices">
+                                        <label><input type="checkbox" name="event_type" value="music" {{ !array_has($interestedEvents, 'music') ?: 'checked' }} id="c"> music</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="technology" {{ !array_has($interestedEvents, 'technology') ?: 'checked' }} id="c"> technology</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="sports & wellness" {{ !array_has($interestedEvents, 'sports & wellness') ?: 'checked' }} id="c"> sports & wellness</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="food & drinks" {{ !array_has($interestedEvents, 'food & drinks') ?: 'checked' }} id="c">food & drinks</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="arts" {{ !array_has($interestedEvents, 'arts') ?: 'checked' }} id="c">arts</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="classes" {{ !array_has($interestedEvents, 'classes') ?: 'checked' }} id="c">classes</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="parties" {{ !array_has($interestedEvents, 'parties') ?: 'checked' }} id="c">parties</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="networking" {{ !array_has($interestedEvents, 'networking') ?: 'checked' }} id="c">networking</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="causes" {{ !array_has($interestedEvents, 'causes') ?: 'checked' }} id="c">causes</label>
+                                    </fieldset>
+                                @else
+                                    <fieldset class="form-group" id="catChoices">
+                                        <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
+                                        <br/>
+                                        <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
+                                    </fieldset>
+                                @endif
+                                <hr>
+                                <h2>Home Address</h2>
+
+                                <div class="md-form">
+                                    <input type="text" name="address" class="form-control" value="{{ $profile->address }}">
+                                    <label for="address">Address</label>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" style="margin-left:15px;float:left;">
+                                        <label class="control-label" for="country" id="fnt">Country</label>
+                                        <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
+                                            <option value="">Select Country</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group" style="margin-left:0px;padding-left:0px;float:left;">
-                                    <label class="col-md-4 control-label" for="city" id="fnt">City</label>
-                                    <div class="col-md-6">
+                                <div class="row">
+                                    <div class="form-group" style="margin-left:0px;float:left;">
+                                        <label class="col-md-4 control-label" for="address" id="fnt">State</label>
+                                        <div class="col-md-6">
+                                            <select name="state" class="states" id="stateId">
+                                                <option value="">Select State</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" style="margin-left:0px;padding-left:0px;float:left;">
+                                        <label class="col-md-4 control-label" for="city" id="fnt">City</label>
+                                        <div class="col-md-6">
+                                            <select name="city" class="cities" id="cityId">
+                                                <option value="">Select City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                        <select name="city" class="cities" id="cityId">
-                                            <option value="">Select City</option>
+                                <input type="hidden" name="checked[]" id="che" multiple="multiple">
+                                <input type="submit" class="btn btn-default" value="update">
+                            </form>
+
+                        @else
+                            <form role="form" method="POST" id="sub" action="{{ route('profileUpdate') }}" enctype="multipart/form-data">
+                                {!! csrf_field() !!}
+                                <h2>General Information</h2>
+                                <br/>
+                                <div class="md-form">
+                                    <input type="text" value="{{ Auth::user()->name }}" name="name" class="form-control">
+                                    <label for="name">Name</label>
+                                </div>
+                                <div class="md-form">
+                                    <label for="About_you">About you</label>
+                                    <textarea name="About_you" style="overflow-y: scroll;resize: none; height:120px" rows="7" class="md-textarea"></textarea>
+                                </div>
+                                <div class="md-form">
+                                    <input type="text" name="contact" class="form-control">
+                                    <label for="contact">Contact</label>
+                                </div>
+
+                                <input type="text" class="form-control" size="30" value="fields of your interests" name="categories" id="cat">
+
+                                <fieldset class="form-group" id="catChoices">
+                                    <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
+                                    <br/>
+                                    <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
+                                </fieldset>
+                                <hr>
+                                <h2>Home Address</h2>
+
+                                <div class="md-form">
+                                    <input type="text" name="address" class="form-control">
+                                    <label for="address">Address</label>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" style="margin-left:15px;float:left;">
+                                        <label class="control-label" for="country" id="fnt">Country</label>
+                                        <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
+                                            <option value="">Select Country</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row">
+                                    <div class="form-group" style="margin-left:0px;float:left;">
+                                        <label class="col-md-4 control-label" for="address" id="fnt">State</label>
+                                        <div class="col-md-6">
 
+                                            <select name="state" class="states" id="stateId">
+                                                <option value="">Select State</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" style="margin-left:0px;padding-left:0px;float:left;">
+                                        <label class="col-md-4 control-label" for="city" id="fnt">City</label>
+                                        <div class="col-md-6">
 
-                            <input type="hidden" name="checked[]" id="che" multiple="multiple">
+                                            <select name="city" class="cities" id="cityId">
+                                                <option value="">Select City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <input type="submit" class="btn btn-default" value="update">
+                                <input type="hidden" name="checked[]" id="che" multiple="multiple">
+                                <input type="submit" class="btn btn-default" value="update">
+                            </form>
 
-                        </form>
-
+                        @endif
 
                     </div>
                     <!--/.Panel 1-->

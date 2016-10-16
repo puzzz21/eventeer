@@ -60,6 +60,27 @@
             @endforeach
         </div>
         <center><a href="#"><h2>see more...</h2></a></center>
+        @foreach($events as $event)
+            <div class="col-sm-3">
+
+
+                <div class="thumbnail">
+                    <img src="{{ asset('public/upload/'.  $event->logo ) }}"/>
+
+
+
+
+                    <p><strong> {{ $event->event_name }} </strong></p>
+
+                    <p>{{  $event->venue }}</p>
+                    <p>{{ $event->event_start_datetime }}</p>
+                    <a href="{{ URL::to('events/'.$event->event_id) }}">  <button class="btn btn-primary">Details...</button></a>
+                </div>
+
+
+            </div>
+
+        @endforeach
 
            <div class="row text-center" id="sec">
             <h1>Events near you</h1> <br/>
