@@ -258,16 +258,34 @@
                     <!--Panel 2-->
                     <div class="tab-pane fade" id="password" role="tabpanel">
                         <br>
+                        <div class="alert alert-danger" id="a">
+                            <strong>Error!</strong> You typed your password wrong.
+                        </div>
+                        <div class="alert alert-danger" id="b">
+                            <strong>Error!</strong> Your new password and re-typed password mismatch.
+                        </div>
+                        <div class="alert alert-success" id="c">
+                            <strong>Success!</strong> Your password has been updated.
+                        </div>
+                        <form enctype="multipart/form-data" id="fm" action="/password" method="POST">
+                            <div class="md-form">
+                                <input type="text" name="current_pass" class="form-control">
+                                <label for="address">Current password</label>
+                            </div>
+                            <div class="md-form">
+                                <input type="text" name="new_pass" class="form-control">
+                                <label for="address">New password</label>
+                            </div>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="md-form">
+                                <input type="text" name="re_new_pass" class="form-control">
+                                <label for="address">Re-type new password</label>
+                            </div>
+                            <input type="submit" class="btn btn-default" value="update">
+                        </form>
 
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus reiciendis molestiae placeat unde eos molestias. Quisquam aperiam,
-                            pariatur. Tempora, placeat ratione
-                            porro voluptate odit minima.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil odit magnam minima, soluta doloribus reiciendis molestiae placeat unde eos molestias. Quisquam aperiam,
-                            pariatur. Tempora, placeat ratione
-                            porro voluptate odit minima.</p>
 
                     </div>
-                    <!--/.Panel 2-->
 
 
                 </div>
@@ -278,6 +296,38 @@
             <script src="http://iamrohit.in/lab/js/location.js"></script>
             <script>
                 $(document).ready(function () {
+                    $('#a').hide();
+                    $('#b').hide();
+                    $('#c').hide();
+                    $("#fm").submit(function(){
+
+                        
+                        var x='{{ $result }}';
+
+
+                            if(x=='your password is updated'){
+                                $('#c').slideDown('500');
+                                $('#a').hide();
+                                $('#b').hide();
+                            }
+                            else if(x=='your new password and re-typed password mismatch'){
+                                $('#b').slideDown('500');
+                                $('#a').hide();
+                                $('#c').hide();
+                            }
+                            else if(x=='you typed your password wrong'){
+                                $('#a').slideDown('500');
+                                $('#c').hide();
+                                $('#b').hide();
+                            }
+                            else{
+                                $('#a').hide();
+                                $('#b').hide();
+                                $('#c').hide();
+
+                            }
+                    });
+
 
                     $('#sub').submit(function (event) {
                         var form = $(this);
