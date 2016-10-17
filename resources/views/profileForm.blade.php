@@ -138,7 +138,7 @@
                         <img src="/images/uploads/avatar/{{ auth()->user()->avatar }}" style="width:270px; height:270px;" class="img-rounded"/>
 
                         <div class="overlay">
-                            <form id="frm" enctype="multipart/form-data" action="/profile" method="POST">
+                            <form id="frm" enctype="multipart/form-data" action="{{ route('avatar') }}" method="POST">
                                 <input type="file" name="avatar">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="submit" class="btn btn-default" value="upload new picture">
