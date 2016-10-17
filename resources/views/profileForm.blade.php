@@ -151,11 +151,23 @@
                     <hr>
                     <div class="col-md-5">
                         <ul class="nav" role="tablist">
+
+
+
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#profile" role="tab"><i class="fa fa-user"></i> Profile Setting</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#event" role="tab"><i class="fa  fa-cog"></i> Events Setting</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#password" role="tab"><i class="fa fa-lock"></i> Password</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#contact" role="tab"><i class="fa fa-envelope"></i> Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#sync" role="tab"><i class="fa fa-calendar "></i> Sync</a>
                             </li>
                         </ul>
                     </div>
@@ -230,9 +242,9 @@
                                         <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
                                     </fieldset>
                                 @endif
-                                <hr>
+                                <br/>
                                 <h2>Home Address</h2>
-
+                                <br/>
                                 <div class="md-form">
                                     <input type="text" name="address" class="form-control" value="{{ $profile->address }}">
                                     <label for="address">Address</label>
@@ -357,94 +369,63 @@
                     <!--/.Panel 1-->
 
                     <!--Panel 2-->
+                    <div class="tab-pane fade" id="event" role="tabpanel">
+                        event
+                        </div>
+                        <!--/.Panel 2-->
+
+                    <!--Panel 3-->
                     <div class="tab-pane fade" id="password" role="tabpanel">
                         <br>
-                        <div class="alert alert-danger" id="a">
-                            <strong>Error!</strong> You typed your password wrong.
-                        </div>
-                        <div class="alert alert-danger" id="b">
-                            <strong>Error!</strong> Your new password and re-typed password mismatch.
-                        </div>
-                        <div class="alert alert-success" id="c">
-                            <strong>Success!</strong> Your password has been updated.
-                        </div>
-                        <form enctype="multipart/form-data" id="fm" action="/password" method="POST">
+                    <div id="rrr" class="alert alert-info"></div>
+                        <div class="form">
+                            <meta name="csrf-token" content="{{ csrf_token() }}" />
+
                             <div class="md-form">
-                                <input type="text" name="current_pass" class="form-control">
+                                <input type="password" name="current_pass" class="form-control" id="current">
                                 <label for="address">Current password</label>
                             </div>
                             <div class="md-form">
-                                <input type="text" name="new_pass" class="form-control">
+                                <input type="password" name="new_pass" class="form-control" id="new">
                                 <label for="address">New password</label>
                             </div>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
                             <div class="md-form">
-                                <input type="text" name="re_new_pass" class="form-control">
+                                <input type="password" name="re_new_pass" class="form-control" id="re">
                                 <label for="address">Re-type new password</label>
                             </div>
-                            <input type="submit" class="btn btn-default" value="update">
-                        </form>
+                            <button id="fff" class="btn btn-default">update!</button>
+                        </div>
+                        </div>
+                    <!--/.Panel 3-->
+
+                    <!--Panel 4-->
+                    <div class="tab-pane fade" id="contact" role="tabpanel">
+                        contact
+                    </div>
+                    <!--/.Panel 4-->
+
+                    <!--Panel 5-->
+                    <div class="tab-pane fade" id="sync" role="tabpanel">
+                        sync
+                    </div>
+                    <!--/.Panel 5-->
+
+
 
 
                     </div>
 
 
-                </div>
+
             </div>
         </div>
         @endsection
         @section('script')
+            <script src="{{ asset('js/password.js') }}"></script>
             <script src="http://iamrohit.in/lab/js/location.js"></script>
             <script>
-                $(document).ready(function () {
-                    $('#a').hide();
-                    $('#b').hide();
-                    $('#c').hide();
-                    $("#fm").submit(function(){
-
-                        
-                        var x='{{ $result }}';
-
-
-                            if(x=='your password is updated'){
-                                $('#c').slideDown('500');
-                                $('#a').hide();
-                                $('#b').hide();
-                            }
-                            else if(x=='your new password and re-typed password mismatch'){
-                                $('#b').slideDown('500');
-                                $('#a').hide();
-                                $('#c').hide();
-                            }
-                            else if(x=='you typed your password wrong'){
-                                $('#a').slideDown('500');
-                                $('#c').hide();
-                                $('#b').hide();
-                            }
-                            else{
-                                $('#a').hide();
-                                $('#b').hide();
-                                $('#c').hide();
-
-                            }
-                    });
-
-
-                    $('#sub').submit(function (event) {
-                        var form = $(this);
-                        event.preventDefault();
-                        var abb = [];
-                        $.each($("input[name='event_type']:checked"),
-                                function () {
-                                    abb.push($(this).val());
-                                });
-                        $('#che').val(abb);
-                        form.unbind(event);
-
-                        form.trigger('submit');
-                    });
-
-                });
                 $("#catChoices").hide();
                 $("#cat").click(function () {
                             $("#catChoices").slideToggle("slow");
@@ -454,5 +435,12 @@
                     event.preventDefault();
                 });
 
+            </script>
+            <script type="text/javascript">
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
             </script>
 @endsection

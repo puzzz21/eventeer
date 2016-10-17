@@ -24,17 +24,21 @@
         #cardTag {
             padding: 5px;
         }
-        #left{
-            padding:10px;
+
+        #left {
+            padding: 10px;
         }
-        #right{
-            padding:50px;
+
+        #right {
+            padding: 50px;
         }
-        body{
-            background:#eceff1;
+
+        body {
+            background: #eceff1;
         }
-        .card{
-            background:white;
+
+        .card {
+            background: white;
         }
     </style>
 @endsection
@@ -49,48 +53,47 @@
                 <div class="col-md-3" id="left">
 
 
+                    <br/>
+
+                    <div class="form-group">
+
+                        <div class="col-md-8" style="margin-left:55px;">
+                            <select id="tags" multiple="multiple" name="tags[]">
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+
+
+                    <div class="col-md-8 form-group" id="fnt" style="margin-left:50px;">
+                        <input type="text" class="form-control" size="30" placeholder="categories" name="categories" id="cat">
+
+                        <fieldset class="form-group" id="catChoices">
+                            <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
                             <br/>
-
-                            <div class="form-group">
-
-                                <div class="col-md-8" style="margin-left:55px;">
-                                    <select id="tags" multiple="multiple" name="tags[]">
-                                    </select>
-                                </div>
-                            </div>
+                            <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
                             <br/>
-
-
-                            <div class="col-md-8 form-group" id="fnt" style="margin-left:50px;">
-                                <input type="text" class="form-control" size="30" placeholder="categories" name="categories" id="cat" >
-
-                                <fieldset class="form-group" id="catChoices">
-                                    <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
-                                    <br/>
-                                    <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
-                                </fieldset>
-                                <div class="file-field">
-                                    <div class="btn col-md-12" style="background:#4B515D;">
-                                        <span>Choose image for your event</span>
-                                        <input type="file" name="logo" value="{{ old('logo') }}" accept='image/*'>
-                                    </div>
-                                </div>
+                            <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
+                            <br/>
+                            <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
+                            <br/>
+                            <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
+                            <br/>
+                            <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
+                            <br/>
+                            <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
+                            <br/>
+                            <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
+                            <br/>
+                            <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
+                        </fieldset>
+                        <div class="file-field">
+                            <div class="btn col-md-12" style="background:#4B515D;">
+                                <span>Choose image for your event</span>
+                                <input type="file" name="logo" value="{{ old('logo') }}" accept='image/*'>
                             </div>
-
+                        </div>
+                    </div>
 
 
                 </div>
@@ -98,144 +101,125 @@
                     <div class="card" id="right">
                         <div class="card-block">
 
-                    <div class="md-form">
-                        <input type="text" id="title" name="event_name" class="form-control" value="{{ old('event_name') }}" required="true">
-                        <label for="title">Event Title</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
                             <div class="md-form">
-                                <label for="event_start_datetime">Event Start Date/Time</label>
-
-                                <input type="text" class="form-control datetimepicker3" name="event_start_datetime" value="{{ old('event_start_datetime') }}" required="true">
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="md-form">
-                                <label for="event_end_datetime">Event End Date/Time</label>
-
-                                <input type="text" required="true" class="form-control datetimepicker3" name="event_end_datetime" value="{{ old('event_end_datetime') }}" required="true">
-
-                            </div>
-                        </div>
-                    </div>
-                            <div class="row">
-
-                            <div class="form-group" style="margin-left:15px;float:left;">
-
-                                <label  class="control-label" for="country" id="fnt" >Country</label>
-
-
-                                <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
-                                    <option value="">Select Country</option>
-                                </select>
-
-                                </div>
-
-
+                                <input type="text" id="title" name="event_name" class="form-control" value="{{ old('event_name') }}" required="true">
+                                <label for="title">Event Title</label>
                             </div>
                             <div class="row">
-                            <div class="form-group"  style="margin-left:0px;float:left;">
-                                <label class="col-md-4 control-label" for="address" id="fnt">State</label>
                                 <div class="col-md-6">
+                                    <div class="md-form">
+                                        <label for="event_start_datetime">Event Start Date/Time</label>
 
-                                    <select name="address" class="states" id="stateId">
-                                        <option value="">Select State</option>
-                                    </select>
+                                        <input type="text" class="form-control datetimepicker3" name="event_start_datetime" value="{{ old('event_start_datetime') }}" required="true">
+
+                                    </div>
                                 </div>
-                            </div>
-                                </div>
-                            <div class="row">
-                            <div class="form-group"  style="margin-left:0px;padding-left:0px;float:left;">
-                                <label class="col-md-4 control-label" for="city" id="fnt">City</label>
+
                                 <div class="col-md-6">
+                                    <div class="md-form">
+                                        <label for="event_end_datetime">Event End Date/Time</label>
 
-                                    <select name="city" class="cities" id="cityId">
-                                        <option value="">Select City</option>
-                                    </select>
+                                        <input type="text" required="true" class="form-control datetimepicker3" name="event_end_datetime" value="{{ old('event_end_datetime') }}" required="true">
+
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+
+                                <div class="form-group" style="margin-left:15px;float:left;">
+
+                                    <label class="control-label" for="country" id="fnt">Country</label>
+
+
+                                    <select name="country" class="countries mdb-select" id="countryId" style="margin-left:20px;">
+                                        <option value="">Select Country</option>
+                                    </select>
+
                                 </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group" style="margin-left:0px;float:left;">
+                                    <label class="col-md-4 control-label" for="address" id="fnt">State</label>
+                                    <div class="col-md-6">
+
+                                        <select name="address" class="states" id="stateId">
+                                            <option value="">Select State</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group" style="margin-left:0px;padding-left:0px;float:left;">
+                                    <label class="col-md-4 control-label" for="city" id="fnt">City</label>
+                                    <div class="col-md-6">
+
+                                        <select name="city" class="cities" id="cityId">
+                                            <option value="">Select City</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <br/>
                             <div class="row">
 
-                            <div class="md-form" style="margin-left:15px;float:left;">
-                                <label for="venue" class="control-label" >Venue</label>
+                                <div class="md-form" style="margin-left:15px;float:left;">
+                                    <label for="venue" class="control-label">Venue</label>
 
                                     <input id="venue" type="text" class="form-control" name="venue" value="{{ old('venue') }}" required="true">
 
-                            </div></div>
+                                </div>
+                            </div>
 
 
                             <div class="md-form">
-                        <textarea id="abc" style="overflow-y: scroll;resize: none; height:150px" name="description" class="md-textarea" rows="10" value="{{ old('event_name') }}" required="true"></textarea>
-                        <label for="abc">Event Desciption</label>
-                    </div>
+                                <textarea id="abc" style="overflow-y: scroll;resize: none; height:150px" name="description" class="md-textarea" rows="10" value="{{ old('event_name') }}"
+                                          required="true"></textarea>
+                                <label for="abc">Event Desciption</label>
+                            </div>
 
 
+                            <div class="form-group" style="margin-left:5px;">
+                                <label for="price" id="fnt">Price</label>
 
+                                <label><input type="radio" name="price" value="free" style="margin-left:50px;" id="free"> free</label>
+                                <label><input type="radio" name="price" value="paid" id="paid" style="margin-left:200px;"> paid</label>
 
+                                <input type="text" name="price" class="form-control" id="price"></textarea>
 
+                            </div>
+                            <div class="md-form">
+                                <label for="special_requirements">Special Requirements</label>
 
-                    <div class="form-group" style="margin-left:5px;">
-                        <label for="price" id="fnt">Price</label>
+                                <textarea name="special_requirements" style="overflow-y: scroll;resize: none; height:120px" rows="7" class="md-textarea"></textarea>
+                            </div>
+                            <input type="hidden" name="latitude" id="lat">
+                            <input type="hidden" name="longitude" id="lng">
+                            <input type="hidden" name="checked[]" id="che" multiple="multiple">
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <input type="submit" class="btn btn-primary" value="Create">
+                                </div>
+                            </div>
 
-                        <label><input type="radio" name="price" value="free" style="margin-left:50px;" id="free"> free</label>
-                        <label><input type="radio" name="price" value="paid" id="paid" style="margin-left:200px;"> paid</label>
-
-                        <input type="text" name="price" class="form-control" id="price"></textarea>
-
-                    </div>
-
-                    {{--<div class="form-group" style="margin-left:5px;">--}}
-                        {{--<label for="event_type" id="fnt">Event Type</label>--}}
-                        {{--<label><input type="radio" name="event_type" style="margin-left:18px;" id="fnt" > private</label>--}}
-                        {{--<label><input type="radio" name="event_type" style="margin-left:180px;" id="fnt"> public</label>--}}
-                    {{--</div>--}}
-
-                    <div class="md-form">
-                        <label for="special_requirements">Special Requirements</label>
-
-                        <textarea name="special_requirements" style="overflow-y: scroll;resize: none; height:120px" rows="7" class="md-textarea"></textarea>
-
-                    </div>
-                    <input type="hidden" name="latitude" id="lat">
-                    <input type="hidden" name="longitude" id="lng">
-                    <input type="hidden" name="checked[]" id="che" multiple="multiple">
-
-
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <input type="submit" class="btn btn-primary" value="Create">
-                            {{--<button type="submit" class="btn btn-primary" id="sub">--}}
-                                {{--<i class="fa fa-btn fa-user"></i> Create--}}
-                            {{--</button>--}}
                         </div>
-                    </div>
-
-                </div>
 
                     </div>
                 </div>
             </form>
         </div>
-           </div>
+    </div>
 
 @endsection
 @section('script')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/mdb.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/mdb.min.css')}}"/>
 
-    <script src="{{asset('js/mdb.js')}}"></script>
-    <script src="{{asset('js/mdb.min.js')}}"></script>
     <script src="{{asset('js/jquery-2.2.3.js')}}"></script>
     <script src="{{asset('js/jquery-2.2.3.min.js')}}"></script>
     <script src="{{asset('js/jquery.datetimepicker.full.min.js')}}"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0WD0EXUROBRkzi4cwJYZETuzDzBPQUgw&callback=initMap"></script>
     <script src="http://iamrohit.in/lab/js/location.js"></script>
 
     <script>
@@ -260,11 +244,11 @@
 
         $(document).ready(function () {
             $("#catChoices").hide();
-            $("#cat").click(function(){
+            $("#cat").click(function () {
                         $("#catChoices").slideToggle("slow");
                     }
             );
-            $("#cat").keypress(function(event){
+            $("#cat").keypress(function (event) {
                 event.preventDefault();
             });
 
@@ -273,13 +257,13 @@
                 event.preventDefault();
                 var abb = [];
                 $.each($("input[name='event_type']:checked"),
-                function(){
-                    abb.push($(this).val());
-                });
+                        function () {
+                            abb.push($(this).val());
+                        });
                 $('#che').val(abb);
 
 
-                   var address = $('#venue').val();
+                var address = $('#venue').val();
                 getLocation(address, function (latitude, longitude, form) {
                     $('#lat').val(latitude);
                     $('#lng').val(longitude);
@@ -325,43 +309,6 @@
 
         });
 
-
-
-        //$(document)ready(
-        //            function(){
-        //                $("#paid").click(function(){
-        //                    $("#price").slideDown("slow");
-        //                });
-        //
-        //
-        //            }
-        //    );
-
     </script>
 
-    <script>
-        {{--function initialize(myCenter) {--}}
-        {{--var mapProp = {--}}
-        {{--center: myCenter,--}}
-        {{--zoom: 5,--}}
-        {{--zoomControl: true,--}}
-        {{--mapTypeId: google.maps.MapTypeId.ROADMAP--}}
-        {{--};--}}
-
-        {{--var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);--}}
-
-        {{--var marker = new google.maps.Marker({--}}
-        {{--position: myCenter,--}}
-        {{--title: 'Click to zoom'--}}
-        {{--});--}}
-
-        {{--marker.setMap(map);--}}
-        {{--map.setZoom(15);--}}
-        {{--map.setCenter(marker.getPosition());--}}
-        {{--}--}}
-
-        {{--getLocation("{{ $event->venue }}", function (latitude, longitude) {--}}
-        {{--google.maps.event.addDomListener(window, 'load', initialize(new google.maps.LatLng(latitude, longitude)));--}}
-        {{--});--}}
-    </script>
 @endsection
