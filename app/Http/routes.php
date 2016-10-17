@@ -22,6 +22,7 @@ Route::get('/',[
 Route::get('profile', 'userController@profile');
 Route::post('profile','userController@updateAvatar');
 Route::post('/profileUpdate',['as' => 'profileUpdate', 'uses' => 'userController@profileUpdate']);
+Route::post('/password',['as'=>'password','uses'=>'userController@password']);
 
 
 Route::get('/rsvp/', [

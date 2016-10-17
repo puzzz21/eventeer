@@ -49,6 +49,30 @@ class userController extends Controller
         }
     }
 
+    public function password(Request $request){
+        $result="your password is updated";
+        $current=Auth::user()->password;
+        $current_pass=$request->current_pass;
+        $new_pass=$request->new_pass;
+        $re_new_pass=$request->re_new_pass;
+        if($current==$current_pass){
+            if($new_pass==$re_new_pass){
+                DB::insert('update users set password=$new_pass where id=Auth::user()->id');
+            }
+            else
+            {
+                $result="your new password and re-typed password mismatch";
+            }
+
+        }
+        else
+        {
+            $result="you typed your password wrong";
+        }
+        return view('profileForm',compact('result'));
+
+    }
+
     public function profileUpdate(Request $request)
     {
         $userId = Auth::user()->id;
