@@ -161,7 +161,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#event" role="tab"><i class="fa  fa-cog"></i> Events Setting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#password" role="tab"><i class="fa fa-lock"></i> Password</a>
+                                <a class="nav-link" href="{{ route('reset.password') }}"><i class="fa fa-lock"></i> Password</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#contact" role="tab"><i class="fa fa-envelope"></i> Contact</a>
@@ -378,25 +378,37 @@
                     <div class="tab-pane fade" id="password" role="tabpanel">
                         <br>
                     <div id="rrr" class="alert alert-info"></div>
-                        <div class="form">
-                            <meta name="csrf-token" content="{{ csrf_token() }}" />
+                        <form action="{{ route('password') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="password" name="current_pass" class="form-control" id="current">
+                            <label for="address">Current password</label>
+                            <input type="password" name="new_pass" class="form-control" id="new">
+                            <label for="address">New password</label>
+                            <input type="password" name="re_new_pass" class="form-control" id="re">
+                            <label for="address">Re-type new password</label>
 
-                            <div class="md-form">
-                                <input type="password" name="current_pass" class="form-control" id="current">
-                                <label for="address">Current password</label>
-                            </div>
-                            <div class="md-form">
-                                <input type="password" name="new_pass" class="form-control" id="new">
-                                <label for="address">New password</label>
-                            </div>
+                            <input type="submit" value="Submit">
+                        </form>
+
+                        {{--<div class="form">--}}
+                            {{--<meta name="csrf-token" content="{{ csrf_token() }}" />--}}
+
+                            {{--<div class="md-form">--}}
+                                {{--<input type="password" name="current_pass" class="form-control" id="current">--}}
+                                {{--<label for="address">Current password</label>--}}
+                            {{--</div>--}}
+                            {{--<div class="md-form">--}}
+                                {{--<input type="password" name="new_pass" class="form-control" id="new">--}}
+                                {{--<label for="address">New password</label>--}}
+                            {{--</div>--}}
 
 
-                            <div class="md-form">
-                                <input type="password" name="re_new_pass" class="form-control" id="re">
-                                <label for="address">Re-type new password</label>
-                            </div>
-                            <button id="fff" class="btn btn-default">update!</button>
-                        </div>
+                            {{--<div class="md-form">--}}
+                                {{--<input type="password" name="re_new_pass" class="form-control" id="re">--}}
+                                {{--<label for="address">Re-type new password</label>--}}
+                            {{--</div>--}}
+                            {{--<button id="fff" class="btn btn-default">update!</button>--}}
+                        {{--</div>--}}
                         </div>
                     <!--/.Panel 3-->
 
@@ -423,7 +435,7 @@
         </div>
         @endsection
         @section('script')
-            <script src="{{ asset('js/password.js') }}"></script>
+            {{--<script src="{{ asset('js/password.js') }}"></script>--}}
             <script src="http://iamrohit.in/lab/js/location.js"></script>
             <script>
                 $("#catChoices").hide();

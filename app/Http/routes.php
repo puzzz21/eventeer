@@ -26,6 +26,10 @@ Route::post('/avatar',[
 ]);
 Route::post('/profileUpdate',['as' => 'profileUpdate', 'uses' => 'userController@profileUpdate']);
 Route::post('/password',['as'=>'password','uses'=>'userController@password']);
+$router->get('/reset-password', [
+    'as' => 'reset.password',
+    'uses' => 'userController@resetPassword'
+]);
 
 
 Route::get('/rsvp/', [

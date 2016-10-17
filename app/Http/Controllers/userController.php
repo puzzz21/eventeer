@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Eventeer\PasswordRequest;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Models\Profile;
-use Hash;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 use Image;
 use DB;
-use Crypt;
 
 class userController extends Controller
 {
@@ -51,24 +50,33 @@ class userController extends Controller
         }
     }
 
-    public function password(Request $request){
-        $result="your password is updated";
-        $token=$request->_token;
-        $current=Auth::user()->password;
-        $curr=Crypt::decrypt(($current));
-        $current_pass=$request->current_pass;
-        $pass=bcrypt(bcrypt($current_pass) . $token);
-        $new_pass=Hash::make($request->new_pass);
-        $re_new_pass=Hash::make($request->re_new_pass);
-        if($curr==$pass){
-            $result="you";
-        }
-        else
-        {
-            $result="you typed your password wrong";
-        }
-        return response()->json(json_encode(['result' => $result]));
+    public function resetPassword()
+    {
+        return view('resetPassword');
+    }
 
+    public function password(PasswordRequest $request)
+    {
+        $user            = auth()->user();
+        $currentPassword = $user->password;
+        $oldPassword     = $request->get('current_pass');
+
+        if (Hash::check($oldPassword, $currentPassword)) {
+            $newPassword        = $request->get('new_pass');
+            $retypedNewPassword = $request->get('re_new_pass');
+
+            if ($newPassword == $retypedNewPassword) {
+                $user->password = $newPassword;
+
+                $user->save();
+
+                return redirect()->route('reset.password')->withMessage('Password updated successfully.');
+            }
+
+            return redirect()->route('reset.password')->withMessage('Retyped password is incorrect');
+        }
+
+        return redirect()->route('reset.password')->withMessage('Current password is incorrect');
     }
 
     public function profileUpdate(Request $request)
