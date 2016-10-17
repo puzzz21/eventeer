@@ -125,6 +125,14 @@
     </style>
 @endsection
 @section('content')
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="contactModal">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content" id="contents">
+
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
             <br/>
             <br/>
@@ -164,7 +172,7 @@
                                 <a class="nav-link" href="{{ route('reset.password') }}"><i class="fa fa-lock"></i> Password</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#contact" role="tab"><i class="fa fa-envelope"></i> Contact</a>
+                                <a class="nav-link" data-toggle="tab" href="#" onclick="getContacts();" role="tab"><i class="fa fa-envelope"></i> Contact</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#sync" role="tab"><i class="fa fa-calendar "></i> Sync</a>
@@ -437,6 +445,8 @@
         @section('script')
             {{--<script src="{{ asset('js/password.js') }}"></script>--}}
             <script src="http://iamrohit.in/lab/js/location.js"></script>
+
+            <script src="https://apis.google.com/js/client.js"></script>
             <script>
                 $("#catChoices").hide();
                 $("#cat").click(function () {
@@ -455,4 +465,6 @@
                     }
                 });
             </script>
+
+            <script type="text/javascript" src="{{ asset('js/oauth.js') }}"></script>
 @endsection

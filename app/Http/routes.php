@@ -31,6 +31,11 @@ $router->get('/reset-password', [
     'uses' => 'userController@resetPassword'
 ]);
 
+$router->get('/contacts', [
+    'as' => 'contacts',
+    'uses' => 'userController@contacts'
+]);
+
 
 Route::get('/rsvp/', [
     'as' => 'rsvp',
