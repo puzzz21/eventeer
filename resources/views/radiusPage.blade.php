@@ -3,115 +3,97 @@
 <br/>
 <br/>
 <div class="container-fluid">
-<div class="row">
-<div class="col-md-2">
-    <br/>
-    <br/>
-<div class="form">
-    <input type="hidden" id="token" value="{{ csrf_token() }}">
-    <input type="hidden" id="lat" value="{{ $lat }}">
-    <input type="hidden" id="lng" value="{{ $lng }}">
+    <div class="row">
+        <div class="col-md-2">
+            <br/>
+            <br/>
+            <div class="form">
+                <input type="hidden" id="token" value="{{ csrf_token() }}">
+                <input type="hidden" id="lat" value="{{ $lat }}">
+                <input type="hidden" id="lng" value="{{ $lng }}">
 
-    <div class="md-form">
-        <label for="radius" class="label-control">radius (km)</label>
-    <input type="text" class="form-control" size="30" id="radius" name="radius">
-    </div>
-    <div class="md-form">
-        <label for="tags" class="label-control">tags</label>
-        <input type="text" class="form-control" size="30" id="tags" name="tags" >
-    </div>
-        <input type="text" class="form-control" size="30" value="categories" name="categories" id="cat" >
-    <fieldset class="form-group" id="catChoices">
-        <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
-        <br/>
-        <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
-    </fieldset>
-    <div class="md-form">
-   <label for="searchDate" class="label-control">date</label>
-    <input type="text" class="form-control datetimepicker3" size="30" id="search" name="searchDate" value="{{ old('searchDate')}}">
-   </div>
-    <input type="hidden" name="checked[]" id="che" multiple="multiple">
-    <button class="btn btn-primary" id="submit">Search</button>
-</div>
-
-</div>
-<div class="col-md-10">
-    <div class="card">
-        <div class="card-block">
-<ul class="nav nav-tabs  md-pills pills-ins" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#map" role="tab" style="color:#2BBBAD;font-size:17px;">
-            <i class="fa fa-map-marker fa-3x" style="color:#2BBBAD;"></i><br>MAP</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#list" role="tab" style="color:#2BBBAD;font-size:17px;">
-            <i class="fa fa-list fa-3x" style="color:#2BBBAD;"></i><br>
-            LIST </a>
-    </li>
-</ul>
-
-     <div class="tab-content">
-    <div class="tab-pane fade in active" id="map" role="tabpanel">
-        <div id="ma" style="width:100%; height:83%;"></div>
-    </div>
-    <div class="tab-pane fade" id="list" role="tabpanel" style="width:100%; height:83%;">
-        <br/>
-        <div class="card">
-            <div class="card-block">
-<input type="text" id="abc" name="abc"/>
-
-                <?php
-                if (!empty($_GET))
-                    echo $_GET['abc'];
-
-                ?>
-
-
-
-                {{--@foreach($response as $ab)--}}
-                    {{--{{$ab}}--}}
-                    {{--@endforeach--}}
-
-            @foreach($a as $event)
-
-            <div class="col-sm-3">
-
-                <div class="thumbnail" id="eventThumbnail">
-                    <img src="{{ asset('public/upload/'.  $event->logo ) }}" style="height:250px;width:450px;"/>
-                    <center>
-                    <p><strong> {{ $event->event_name }} </strong></p>
-                    <p>{{  $event->venue }}</p>
-                    <p>{{ $event->event_start_datetime }}</p>
-                    <a href="{{ URL::to('events/'.$event->id) }}">
-                        <button class="btn btn-primary">Details...</button>
-                    </a>
-                    </center>
+                <div class="md-form">
+                    <label for="radius" class="label-control">radius (km)</label>
+                    <input type="text" class="form-control" size="30" id="radius" name="radius">
                 </div>
-
+                <div class="md-form">
+                    <label for="tags" class="label-control">tags</label>
+                    <input type="text" class="form-control" size="30" id="tags" name="tags">
+                </div>
+                <input type="text" class="form-control" size="30" value="categories" name="categories" id="cat">
+                <fieldset class="form-group" id="catChoices">
+                    <label><input type="checkbox" name="event_type" value="music" id="c"> music</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="technology" id="c"> technology</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="sports & wellness" id="c"> sports & wellness</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="food & drinks" id="c">food & drinks</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="arts" id="c">arts</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="classes" id="c">classes</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="parties" id="c">parties</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="networking" id="c">networking</label>
+                    <br/>
+                    <label><input type="checkbox" name="event_type" value="causes" id="c">causes</label>
+                </fieldset>
+                <div class="md-form">
+                    <label for="searchDate" class="label-control">date</label>
+                    <input type="text" class="form-control datetimepicker3" size="30" id="search" name="searchDate" value="{{ old('searchDate')}}">
+                </div>
+                <input type="hidden" name="checked[]" id="che" multiple="multiple">
+                <button class="btn btn-primary" id="submit">Search</button>
             </div>
-        @endforeach
+
+        </div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-block">
+                    <ul class="nav nav-tabs  md-pills pills-ins" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#map" role="tab" style="color:#2BBBAD;font-size:17px;">
+                                <i class="fa fa-map-marker fa-3x" style="color:#2BBBAD;"></i><br>MAP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#list" role="tab" style="color:#2BBBAD;font-size:17px;">
+                                <i class="fa fa-list fa-3x" style="color:#2BBBAD;"></i><br>
+                                LIST </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="map" role="tabpanel">
+                            <div id="ma" style="width:100%; height:83%;"></div>
+                        </div>
+                        <div class="tab-pane fade" id="list" role="tabpanel" style="width:100%; height:83%;">
+                            <br/>
+                            <div class="card">
+                                <div class="card-block">
+                                    <input type="text" id="abc" name="abc"/>
+
+                                    <div class="thumbnail" id="eventThumbnail">
+                                        @foreach($a as $event)
+                                            <div class="col-sm-3">
+                                                <img src="{{ asset('public/upload/'.  $event->logo ) }}" style="height:250px;width:450px;"/>
+                                                <p><strong> {{ $event->event_name }} </strong></p>
+                                                <p>{{  $event->venue }}</p>
+                                                <p>{{ $event->event_start_datetime }}</p>
+                                                <a href="{{ URL::to('events/'.$event->id) }}">
+                                                    <button class="btn btn-primary">Details...</button>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-    </div>
-</div>
-</div>
-    </div>
-</div>
-
+        </div>
     </div>
 </div>
 
@@ -143,13 +125,13 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#catChoices").hide();
-           $("#cat").click(function(){
-               $("#catChoices").slideToggle("slow");
-           }
-           );
-            $("#cat").keypress(function(event){
+            $("#cat").click(function () {
+                        $("#catChoices").slideToggle("slow");
+                    }
+            );
+            $("#cat").keypress(function (event) {
                 event.preventDefault();
             });
         });
