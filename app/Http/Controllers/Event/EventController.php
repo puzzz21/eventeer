@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Event;
 use App\Http\Requests\Eventeer\EventRequest;
+use Auth;
 
 use Carbon;
 use DB;
@@ -79,9 +80,50 @@ class EventController extends Controller
 
     public function index()
     {
+        $userId              = auth()->user()->id;
+        $arr                 = array();
+        $event_interestArray = array();
+        $interested_events   = DB::table('profile')->select('interested_events')->where('user_id', $userId)->get();
+        $country_arr         = array();
+        $event_countryArray  = array();
+        $country_events      = DB::table('profile')->select('country')->where('user_id', $userId)->get();
+        $events              = DB::table('events')->get();
+
+        foreach ($events as $event) {
+            foreach ($interested_events as $interested_event) {
+                $bb = explode(",", $interested_event->interested_events);
+                foreach ($bb as $b) {
+                    $aa = explode(",", $event->event_type);
+                    if (in_array($b, $aa)) {
+                        array_push($arr, $event->id);
+                    }
+                }
+            }
+        }
+        $event_id_array = array_unique($arr);
+
+        foreach ($events as $event) {
+            foreach ($country_events as $country) {
+
+                if ($event->country == $country->country) {
+                    array_push($country_arr, $event->id);
+                }
+            }
+        }
+        $event_countryArray = array_unique($country_arr);
+
+        $recommended = array_intersect($event_id_array, $event_countryArray);
+
+
+        foreach ($recommended as $recommended_id) {
+            $event_recommend = DB::table('events')->where('id', $recommended_id)->take(8)->get();
+            array_push($event_interestArray, $event_recommend);
+        }
+
+
         $mytime = Carbon\Carbon::now();
-        $userId = auth()->user()->id;
-        $going  = $this->enrollment
+
+        $going = $this->enrollment
             ->select(
                 [
                     'enrollments.enrollment_id as enrollment_id',
@@ -119,15 +161,15 @@ class EventController extends Controller
             ->get()
             ->take(- 4);
 
-        $events = $this->event->all();
+        $events = $this->event->orderBy('id', 'desc')->get();
 
-        return view('welcome', compact('going', 'maybe', 'events'));
+        return view('welcome', compact('events', 'event_interestArray'));
     }
 
     public function store(Request $request)
     {
         $details = $request->all();
-
+  
         if (array_key_exists('logo', $details)) {
             $file            = $details['logo'];
             $destinationPath = public_path() . '/public/upload/';
@@ -162,6 +204,8 @@ class EventController extends Controller
         $details['user_id'] = auth()->user()->id;
         $event              = $this->event->create($details);
 
+
+
         return redirect()->route('events.show', $event->id);
     }
 
@@ -193,36 +237,67 @@ class EventController extends Controller
             $aaa = "you might go to this event!";
         }
 
+        $user_id    = Auth::user()->id;
+        $group_name = DB::table('contacts')->select('group_name')->where('user_id', '=', $user_id)->get();
+        $creator= DB::table('profile')->where('user_id',$event->user_id)->get();
 
-        return view('event.show', compact('event', 'options', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
+        return view('event.show', compact('group_name', 'event','creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
     }
 
+    public function profile($id){
+        $profiles = DB::table('profile')->where('id',$id)->get();
+        foreach($profiles as $profile){
+            $user_id=$profile->user_id;
+        }
+        $events=DB::table('events')->where('user_id',$user_id)->get();
+        $avatar = DB::table('users')->where('id',$user_id)->get();
+        foreach($avatar as $a){
+            $pic=$a->avatar;
+        }
+
+        return view('profile',compact('profiles','pic','events'));
+    }
+    public function emailList(Request $request)
+    {
+        $emailList = DB::table('contacts')->select('contact_list')->where('group_name', $request->text)->get();
+
+        return response()->json(json_encode($emailList));
+    }
 
     public function rsvp(Request $request)
     {
 
-        $details   = [
+        $details = [
             'event_id'          => $request->get('event_id'),
             'enrollment_status' => $request->get('choice'),
             'user_id'           => auth()->user()->id,
             'payment_status'    => "paid"
 
         ];
-        $user_ids  = $this->enrollment->get(['user_id']);
-        $event_ids = $this->enrollment->get(['event_id']);
 
-        foreach ($user_ids as $user_id) {
-            foreach ($event_ids as $event_id) {
-                if (($user_id['user_id'] == $details['user_id']) && ($event_id['event_id'] == $details['event_id'])) {
-                    $enrollment = $this->enrollment->firstOrCreate($details);
-                } else {
-                    $enrollment = $this->enrollment->firstOrCreate($details);
-                }
-            }
-
-            return json_encode($enrollment->enrollment_status);
+        $user_id  = $details['user_id'];
+        $event_id = $details['event_id'];
+//        $event_ids = $this->enrollment->get(['event_id']);
+        $enrolled = DB::table('enrollments')->where('user_id', $user_id)->where('event_id', $event_id)->get();
+        if ($enrolled == []) {
+            DB::table('enrollments')->insert(['enrollment_status' => $details['enrollment_status'], 'event_id' => $details['event_id'], 'user_id' => $details['user_id']]);
+        } else {
+            DB::table('enrollments')->update(['enrollment_status' => $details['enrollment_status'], 'event_id' => $details['event_id'], 'user_id' => $details['user_id']]);
         }
+
+
+//        foreach ($user_ids as $user_id) {
+//            foreach ($event_ids as $event_id) {
+//                if (($user_id['user_id'] == $details['user_id']) && ($event_id['event_id'] == $details['event_id'])) {
+//                    $enrollment = $this->enrollment->firstOrCreate($details);
+//                } else {
+//                    $enrollment = $this->enrollment->firstOrCreate($details);
+//                }
+//            }
+
+//            return json_encode($enrollment->enrollment_status);
     }
+
 
     public function rsvpshow(Request $request)
     {
@@ -344,7 +419,7 @@ class EventController extends Controller
 
     public function search(Request $request)
     {
-        if ($request->location != "" && $request->tags == "" && $request->searchDate == "") {
+       if ($request->location != "" && $request->tags == "" && $request->searchDate == "") {
             $result = $this->event->where('city', $request->location)->get();
         } elseif ($request->tags != "" && $request->location == "" && $request->searchDate == "") {
             $result = $this->event->where('tags', 'LIKE', '%' . $request->tags . '%')->get();
@@ -376,6 +451,14 @@ class EventController extends Controller
         }
 
         return view('event.searchPage', compact('result'));
+    }
+
+    public function searchTag($tag)
+    {
+
+        $result = $this->event->where('tags', 'LIKE', '%' . $tag . '%')->get();
+
+        return view('event.searchPage',compact('result'));
     }
 
     public function radSearch(Request $request)
@@ -461,5 +544,101 @@ class EventController extends Controller
     {
         return $tag ? array_has(array_flip(explode(',', $event->tags)), $tag) : false;
     }
+
+    public function updateEvent($id)
+    {
+        $events = DB::table('events')->where('id', '=', $id)->get();
+
+        return view('event.update', compact('events'));
+
+    }
+
+    public function event_update(Request $request)
+    {
+        $details = $request->all();
+
+        if (array_key_exists('logo', $details)) {
+            $file            = $details['logo'];
+            $destinationPath = public_path() . '/public/upload/';
+            $filename        = $file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $details['logo'] = $filename;
+        }
+
+        if (array_key_exists('event_start_datetime', $details)) {
+            $event_start_datetime            = $details['event_start_datetime'];
+            $explode_esdt                    = explode(".", $event_start_datetime);
+            $explode_esdt_yr                 = explode(" ", $explode_esdt[2]);
+            $details['event_start_datetime'] = $explode_esdt_yr[0] . '-' . $explode_esdt[1] . '-' . $explode_esdt[0] . ' ' . $explode_esdt_yr[1] . ':00';
+
+        }
+        if (array_key_exists('event_end_datetime', $details)) {
+            $event_end_datetime            = $details['event_end_datetime'];
+            $explode_eedt                  = explode(".", $event_end_datetime);
+            $explode_eedt_yr               = explode(" ", $explode_eedt[2]);
+            $details['event_end_datetime'] = $explode_eedt_yr[0] . '-' . $explode_eedt[1] . '-' . $explode_eedt[0] . ' ' . $explode_eedt_yr[1] . ':00';
+
+        }
+        if (array_key_exists('tags', $details)) {
+            $x               = implode(",", $details['tags']);
+            $details['tags'] = $x;
+        }
+        if (array_key_exists('checked', $details)) {
+            $x                     = $details['checked'][0];
+            $details['event_type'] = $x;
+        }
+
+        DB::table('events')->where('id', $details['event_id'])->update(
+            [
+                'event_name'           => $details['event_name'],
+                'venue'                => $details['venue'],
+                'event_start_datetime' => $details['event_start_datetime'],
+                'event_end_datetime'   => $details['event_end_datetime'],
+                'logo'                 => $details['logo'],
+                'description'          => $details['description'],
+                'user_id'              => Auth::user()->id,
+                'longitude'            => $details['longitude'],
+                'latitude'             => $details['latitude'],
+                'special_requirements' => $details['special_requirements'],
+                'price'                => $details['price'],
+                'tags'                 => $details['tags'],
+                'event_type'           => $details['event_type'],
+                'address'              => $details['address'],
+                'country'              => $details['country'],
+                'city'                 => $details['city']
+            ]
+        );
+
+        return redirect()->route('events.show', $details['event_id']);
+
+    }
+    public function emailOrganizer(Request $request){
+        $name = $request->name;
+        $address = $request->address;
+        $msg = $request->msg;
+        $id = $request->id;
+        $id = trim($id);
+        $orgEmail = DB::table('users')->select('email')->where('id',$id)->get();
+        foreach($orgEmail as $email)
+        {
+            $e=$email->email;
+        }
+
+        $sendgrid = new \SendGrid(env('SENDGRID_USERNAME', 'username'), env('SENDGRID_PASSWORD', 'password'), array("turn_off_ssl_verification" => true));
+        $email    = new \SendGrid\Email();
+        $email
+            ->addTo($e)
+            ->setFrom($address)
+            ->setSubject("Your friend has invited you to the event")
+            ->setHtml(
+              $msg
+            );
+        $sendgrid->sendEmail($email);
+
+    }
+    public function register($id){
+        return view('register',compact('id'));
+    }
+
 
 }

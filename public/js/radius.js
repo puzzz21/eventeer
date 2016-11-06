@@ -22,7 +22,13 @@ $(document).ready(function () {
                 'lng': $('#lng').val()
             }
         }).success(function (response) {
+            // document.getElementById("abc").value = response;
+
             response = JSON.parse(response);
+            var y=JSON.stringify(response);
+            $("#abc").val(y);
+
+
 
             var lat = response.lat;
 
@@ -55,7 +61,7 @@ $(document).ready(function () {
                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
 
-                        window.location.href = "http://localhost:8000/events/" + locations[i][0];
+                        window.location.href = "http://localhost:9000/events/" + locations[i][0];
                     }
                 })(marker, i));
 
@@ -72,6 +78,8 @@ $(document).ready(function () {
                     }
                 })(marker, i));
             }
+
+
         });
     });
 });

@@ -72,18 +72,34 @@
         <br/>
         <div class="card">
             <div class="card-block">
-        @foreach($a as $event)
+<input type="text" id="abc" name="abc"/>
+
+                <?php
+                if (!empty($_GET))
+                    echo $_GET['abc'];
+
+                ?>
+
+
+
+                {{--@foreach($response as $ab)--}}
+                    {{--{{$ab}}--}}
+                    {{--@endforeach--}}
+
+            @foreach($a as $event)
 
             <div class="col-sm-3">
 
-                <div class="thumbnail">
-                    <img src="{{ asset('public/upload/'.  $event->logo ) }}"/>
+                <div class="thumbnail" id="eventThumbnail">
+                    <img src="{{ asset('public/upload/'.  $event->logo ) }}" style="height:250px;width:450px;"/>
+                    <center>
                     <p><strong> {{ $event->event_name }} </strong></p>
                     <p>{{  $event->venue }}</p>
                     <p>{{ $event->event_start_datetime }}</p>
                     <a href="{{ URL::to('events/'.$event->id) }}">
                         <button class="btn btn-primary">Details...</button>
                     </a>
+                    </center>
                 </div>
 
             </div>
@@ -164,7 +180,7 @@
             google.maps.event.addListener(marker, 'click', (function (marker, i) {
                 return function () {
 
-                    window.location.href = "http://localhost:8000/events/" + locations[i][0];
+                    window.location.href = "http://localhost:9000/events/" + locations[i][0];
                 }
             })(marker, i));
 

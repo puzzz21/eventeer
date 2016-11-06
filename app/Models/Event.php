@@ -7,7 +7,7 @@ class Event extends Model
 {
     protected $table = 'events';
 
-    protected $fillable = ['event_name', 'venue', 'event_date', 'event_start_datetime', 'event_end_datetime', 'logo', 'description', 'user_id', 'latitude', 'longitude' , 'special_requirements', 'price', 'tags', 'event_type','country','address','city'];
+    protected $fillable = ['event_name', 'venue', 'event_date', 'event_start_datetime', 'event_end_datetime', 'logo', 'description', 'user_id', 'latitude', 'longitude' , 'special_requirements', 'price', 'tags', 'event_type','country','address','city','registration','seats'];
     
     public function user()
     {

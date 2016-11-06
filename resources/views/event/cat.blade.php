@@ -2,18 +2,21 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row text-center" id="sec">
+        <div class="row text-center">
+            <br/>
+            <br/>
+            <br/>
             <h1> {{ $ca }}</h1>
             @if($cat == "non of the defined categories are selected")
                 {{ $cat }}
             @else
                 @foreach($cat as $a)
 
-                <div class="col-sm-3">
+                <div class="col-sm-3" id="thumb">
 
 
                     <div class="thumbnail">
-                        <img src="{{ asset('public/upload/'.  $a->logo ) }}"/>
+                        <img src="{{ asset('public/upload/'.  $a->logo ) }}" style="height:250px;width:450px;" />
 
 
 

@@ -8,8 +8,8 @@
 
             <a href="{{ route('events.create') }}" class="btn btn-default btn-lg">Create !</a>
             {{--<button type="button" class="btn btn-default" value="create events" style="height:70px;width: 200px">--}}
-                {{--<a href="{{ URL::to('events/create') }}"><h3>CREATE!</h3>--}}
-                {{--</a></button>--}}
+            {{--<a href="{{ URL::to('events/create') }}"><h3>CREATE!</h3>--}}
+            {{--</a></button>--}}
         </div>
 
         <div class="row text-center" id="sec">
@@ -19,140 +19,156 @@
             {{--<button onclick="getLocation()">Try It</button>--}}
 
             {{--<p id="demo"></p>--}}
-
-            <h1>Events near you!</h1> <br/>
+            Events near you!
+            <br/>
+            <h3> Find the events that are listed within your radius.</h3>
 
             <form class="form-horizontal" role="form" id="sub" method="POST" action="{{ route('radius') }}" enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <input type="text" name="radius" placeholder="enter radius(km)" style="width:200px;font-size:20px;"/>
                 <input type="hidden" name="lat" id="lat"/>
                 <input type="hidden" name="lng" id="lng"/>
-                <br/><br/>
+                <br/>
 
-                <input type="submit" class="btn btn-default" style="height:50px;width:200px;font-size:30px;" value="Find!"/>
+                <button type="submit" class="btn btn-success" style="height:50px;width:130px;font-size:20px;color:white;" value="Find!">Find!</button>
             </form>
-
-            {{--@foreach($going as $a)--}}
-
-            {{--<div class="col-sm-3">--}}
-            {{--<div{{--<p>Click the button to get your coordinates.</p>--}}
-
-            {{--<button onclick="getLocation()">Try It</button>--}}
-
-            {{--<p id="demo"></p> class="thumbnail">--}}
-            {{--<img src="{{ asset('public/upload/'.  $a->logo ) }}"/>--}}
-            {{--<p><strong> {{ $a->event_name }} </strong></p>--}}
-            {{--<p>{{  $a->venue }}</p>--}}
-            {{--<p>{{ $a->event_start_datetime }}</p>--}}
-            {{--<a href="{{ URL::to('events/'.$a->event_id) }}"><button class="btn btn-primary">Details...</button></a>--}}
-            {{--</div>--}}
-
-
-            {{--</div>--}}
-
-            {{--@endforeach--}}
 
         </div>
 
         <div class="row" id="third">
             <center>
                 Search
-                <h1>Find events of your interest</h1>
-                <form class="form-inline" action="{{ route('search') }}" method="post" role="form">
+                <h3>Find events of your interest</h3>
+                <br/>
+                <form class="form-inline" action="{{ route('search') }}" method="post" role="form" id="searchForm">
                     {{ csrf_field() }}
                     {!! csrf_field() !!}
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="text" class="form-control" size="30" placeholder="location" name="location">
-                    <input type="text" class="form-control" size="30" placeholder="tags" name="tags">
-                    <input type="text" class="form-control datetimepicker3" size="30" placeholder="date" name="searchDate" value="{{ old('searchDate')}}">
+                    <span class="md-form" style="width:50px;">
+                        <label for="location" class="control-label" style="color:white;font-size:20px;">location</label>
+                        <input type="text" class="form-control" name="location" style="color:white;font-size:20px;">
+                    </span>
+                    <span class="md-form" style="width:50px;">
+                        <label for="tags" class="control-label" style="color:white;font-size:20px;">tags</label>
+                        <input type="text" class="form-control" name="tags" style="color:white;font-size:20px;">
+                    </span>
+                    <span class="md-form" style="width:50px;">
+                        <label for="searchDate" class="control-label" style="color:white;font-size:20px;">date</label>
+                        <input type="text" class="form-control datetimepicker3" size="30" name="searchDate" style="color:white;font-size:20px;">
+                    </span>
 
-                    <input type="submit" class="btn btn-primary"></input>
+                    <button type="submit" class="btn btn-success" style="height:50px;width:130px;font-size:20px;color:white;">Search!</button>
                 </form>
             </center>
 
 
         </div>
         <div class="row" id="fourth">
-            <center><h1>browse by top categories</h1></center>
+            <center>Categories</center>
+            <center><h1>Browse by top categories</h1></center>
 
             <br/>
             <div class="col-sm-4">
-                <div class="abc">
-                    {{--<div id="polaroid">--}}
-                    <a href="{{ route('cat', ['music']) }}"><img src="{{ asset('images/music.jpg' ) }}" style="width:100%" alt="music">
-                        <div class="center" style="font-size:50px">music</div>
-                    </a>
+                <div class="view hm-zoom">
+                    <a href="{{ route('cat', ['music']) }}"><img src="{{ asset('images/music.jpg' ) }}" style="width:100%;height:465px;" alt="music">
+
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:50px;">music</h3>
+                        </div>
                 </div>
+                {{--<div id="polaroid">--}}
+
+                </a>
+
             </div>
 
             <div class="col-sm-2">
-                <div class="abc">
-                    <a href="{{ route('cat', ['technology']) }}"> <img src="{{ asset('images/tech.jpg' ) }}" style="width:100%" alt="technology">
-                        <div class="center">technology</div>
+                <div class="view hm-zoom">
+
+                    <a href="{{ route('cat', ['technology']) }}"> <img src="{{ asset('images/tech.jpg' ) }}" style="width:100%;height:190px;" alt="technology">
+
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">technology</h3>
+                        </div
                     </a>
                 </div>
             </div>
             <div class="col-sm-2">
-                <div class="abc">
-                    <a href="{{ route('cat', ['sports & wellness']) }}"> <img src="{{ asset('images/sports.jpg' ) }}" style="width:100%" alt="sports">
-                        <div class="center">sports & wellness</div>
-                    </a>
-                </div>
-            </div>
+                <div class="view hm-zoom">
 
-
-            <div class="col-sm-2">
-                <div class="abc">
-                    <a href="{{ route('cat', ['classes']) }}"><img src="{{ asset('images/class.jpg' ) }}" style="width:100%" alt="class">
-                        <div class="center">classes</div>
-                    </a>
-                </div>
-            </div>
-
-
-            <div class="col-sm-2">
-                <div class="abc">
-                    <a href="{{ route('cat', ['food & drinks']) }}"> <img src="{{ asset('images/food.jpg' ) }}" style="width:100%" alt="food">
-                        <div class="center">food & drinks</div>
+                    <a href="{{ route('cat', ['sports & wellness']) }}"> <img src="{{ asset('images/sports.jpg' ) }}" style="width:100%;height:190px;" alt="sports">
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">sports & wellness</h3>
+                        </div
                     </a>
                 </div>
             </div>
 
 
             <div class="col-sm-2">
-                <div class="abc">
+                <div class="view hm-zoom">
+
+                    <a href="{{ route('cat', ['classes']) }}"><img src="{{ asset('images/class.jpg' ) }}" style="width:100%;height:190px;" alt="class">
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">classes</h3>
+                        </div
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col-sm-2">
+                <div class="view hm-zoom">
+
+                    <a href="{{ route('cat', ['food & drinks']) }}"> <img src="{{ asset('images/food.jpg' ) }}" style="width:100%;height:190px;" alt="food">
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">food & drinks</h3>
+                        </div
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col-sm-2">
+                <div class="view hm-zoom">
                     <br/>
+
 
                     <a href="{{ route('cat', ['arts']) }}"> <img src="{{ asset('images/arts.jpg' ) }}" style="width:100%" alt="arts">
-                        <div class="center">arts</div>
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">arts</h3>
+                        </div
                     </a>
                 </div>
             </div>
             <div class="col-sm-2">
-                <div class="abc">
+                <div class="view hm-zoom">
                     <br/>
-
-                    <a href="{{ route('cat', ['causes']) }}"><img src="{{ asset('images/causes.jpg' ) }}" style="width:100%" alt="causes">
-                        <div class="center">causes</div>
+                    <a href="{{ route('cat', ['causes']) }}"><img src="{{ asset('images/causes.jpg' ) }}" style="width:100%;height:190px;" alt="causes">
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">causes</h3>
+                        </div
                     </a>
                 </div>
 
             </div>
             <div class="col-sm-2">
-                <div class="abc">
+                <div class="view hm-zoom">
                     <br/>
-
-                    <a href="{{ route('cat', ['parties']) }}"> <img src="{{ asset('images/party.jpg' ) }}" style="width:100%" alt="party">
-                        <div class="center">parties</div>
+                    <a href="{{ route('cat', ['parties']) }}"> <img src="{{ asset('images/party.jpg' ) }}" style="width:100%;height:190px;" alt="party">
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">parties</h3>
+                        </div
                     </a>
                 </div>
             </div>
             <div class="col-sm-2">
-                <div class="abc">
+                <div class="view hm-zoom">
                     <br/>
-
-                    <a href="{{ route('cat', ['networking']) }}"><img src="{{ asset('images/nw.jpg' ) }}" style="width:100%" alt="nw">
-                        <div class="center">networking</div>
+                    <a href="{{ route('cat', ['networking']) }}"><img src="{{ asset('images/nw.jpg' ) }}" style="width:100%;height:190px;" alt="nw">
+                        <div class="mask flex-center">
+                            <h3 class="black-text" style="font-size:25px;">networking</h3>
+                        </div
                     </a>
                 </div>
             </div>

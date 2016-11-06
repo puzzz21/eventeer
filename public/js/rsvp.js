@@ -13,6 +13,7 @@
 $('#circle_yes').on('click', function () {
     var choice = "going";
     var paymentStatus = "paid";
+   
 
     $.ajax({
         url: route,
