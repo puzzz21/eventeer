@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Eventeer\PasswordRequest;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use Auth;
@@ -262,13 +263,14 @@ class userController extends Controller
 
     public function deleteGrp(Request $request)
     {
-        $grp = $request->id;
-        DB::table('contacts')->where('id', $grp)->delete();
-        $user_id    = Auth::user()->id;
-        $group_name = DB::table('contacts')->select('group_name', 'id')->where('user_id', '=', $user_id)->get();
+        $grp = $request->get('id');
 
-        return response()->json($group_name);
+        if (!DB::table('contacts')->where('id', $grp)->delete()) {
+            return response()->json(['success' => false]);
+        }
+//        $group_name = DB::table('contacts')->select('group_name', 'id')->where('user_id', '=', auth()->user()->id)->get();
 
+        return response()->json(['success' => true]);
     }
 
     public function deleteGroup($email, $grpID, $grpNAME)

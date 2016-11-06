@@ -62,17 +62,15 @@ counter-increment: tableCount;
                    <th>Actions <div id="gn"></div></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="contact-table">
                 @foreach($group_name as $grp)
                 <tr>
                     <td class="counterCell"></td>
                     <td>{{ $grp->group_name }}</td>
-                     <td>
-                         <?php $id= $grp->id; ?>
-                         <input type="hidden" id="idVal" value="{{ $id }}" />
-                             {{--href=" {{ URL::to('/deleteGrp/'.  $id)  }}"--}}
-                        <a class="teal-text" href=" {{ URL::to('/updategroup/'. $id) }}"><i class="fa fa-pencil"></i></a>
-                        <a class="red-text" id="del"><i class="fa fa-times"></i></a>
+                    <td>
+                         {{--href=" {{ URL::to('/deleteGrp/'.  $grp->id)  }}"--}}
+                        <a class="teal-text" href=" {{ URL::to('/updategroup/'. $grp->id) }}"><i class="fa fa-pencil"></i></a>
+                        <a class="red-text del" data-value="{{ $grp->id }}"><i class="fa fa-times"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -82,7 +80,7 @@ counter-increment: tableCount;
 
 
         @else
-        <p>no groups</p>
+        <div class="form-group text-center">No Groups available.</div>
         @endif
         <div id="fff"></div>
     </center>

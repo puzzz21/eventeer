@@ -11,26 +11,29 @@ $('#group').submit(function () {
     });
 });
 
-$('#del').on('click',function(){
-   $.ajax({
-    url:'deleteGrp',
-           dataType: 'JSON',
-       data: {
-           'id' : $('#idVal').val()
-       }
-   }    
-   ).success(function (response) {
-    var obj=response;
+$('.del').on('click', function () {
+    var that = $(this);
+    var parent = that.parent().parent();
 
-       document.getElementById("fff").innerHTML =
-           obj.group_name + "<br>" +
-           obj.id ;
-      // var res= JSON.parse(reponse);
-      //
-      //  var group_name = res.group_name;
-      //  $('#gn').html(group_name);
-           
-   });
+    $.ajax({
+        url: 'deleteGrp',
+        data: {'id': that.attr('data-value')}
+    }).success(function (response) {
+        if (response.success) {
+            parent.remove();
+            var table = $('#contact-table');
+            var grandparent = table.parent();
+
+            if (table.children().length == 0) {
+                grandparent.empty();
+
+                grandparent.append($('<div/>', {
+                    class: 'form-group text-center',
+                    html: 'No Groups available.'
+                }));
+            }
+        }
+    });
 });
 
 $('#add').on('click', function (event) {
