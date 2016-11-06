@@ -202,6 +202,16 @@
                                         <h3>{{ $event->price }}</h3>
                                     @endif
 
+                                    <br/>
+                                        @if(($event->seats)==0)
+
+                                        @else
+                                            <h3><strong>Available seats</strong></h3>
+
+                                            {{ $event->seats }}
+                                        @endif
+
+
 
                                 </h4>
                                 {{--<div id="fb-root"></div>--}}

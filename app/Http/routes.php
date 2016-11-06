@@ -134,6 +134,7 @@ Route::post('/event_update',['as' => 'event_update', 'uses' => 'Event\EventContr
 Route::get('/profile/{id?}',['as'=>'profile', 'uses' => 'Event\EventController@profile']);
 Route::get('/emailOrganizer',['as'=>'emailOrganizer', 'uses' => 'Event\EventController@emailOrganizer']);
 Route::get('/register/{id?}',['as'=>'register', 'uses' => 'Event\EventController@register']);
+Route::post('/registerForm',['as'=>'registerForm', 'uses' => 'Event\EventController@registerForm']);
 
 
 

@@ -169,7 +169,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $details = $request->all();
-  
+
         if (array_key_exists('logo', $details)) {
             $file            = $details['logo'];
             $destinationPath = public_path() . '/public/upload/';
@@ -205,7 +205,6 @@ class EventController extends Controller
         $event              = $this->event->create($details);
 
 
-
         return redirect()->route('events.show', $event->id);
     }
 
@@ -239,24 +238,30 @@ class EventController extends Controller
 
         $user_id    = Auth::user()->id;
         $group_name = DB::table('contacts')->select('group_name')->where('user_id', '=', $user_id)->get();
-        $creator= DB::table('profile')->where('user_id',$event->user_id)->get();
+        $creator    = DB::table('profile')->where('user_id', $event->user_id)->get();
 
-        return view('event.show', compact('group_name', 'event','creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
+
+
+
+
+        return view('event.show', compact('group_name', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
     }
 
-    public function profile($id){
-        $profiles = DB::table('profile')->where('id',$id)->get();
-        foreach($profiles as $profile){
-            $user_id=$profile->user_id;
+    public function profile($id)
+    {
+        $profiles = DB::table('profile')->where('id', $id)->get();
+        foreach ($profiles as $profile) {
+            $user_id = $profile->user_id;
         }
-        $events=DB::table('events')->where('user_id',$user_id)->get();
-        $avatar = DB::table('users')->where('id',$user_id)->get();
-        foreach($avatar as $a){
-            $pic=$a->avatar;
+        $events = DB::table('events')->where('user_id', $user_id)->get();
+        $avatar = DB::table('users')->where('id', $user_id)->get();
+        foreach ($avatar as $a) {
+            $pic = $a->avatar;
         }
 
-        return view('profile',compact('profiles','pic','events'));
+        return view('profile', compact('profiles', 'pic', 'events'));
     }
+
     public function emailList(Request $request)
     {
         $emailList = DB::table('contacts')->select('contact_list')->where('group_name', $request->text)->get();
@@ -419,7 +424,7 @@ class EventController extends Controller
 
     public function search(Request $request)
     {
-       if ($request->location != "" && $request->tags == "" && $request->searchDate == "") {
+        if ($request->location != "" && $request->tags == "" && $request->searchDate == "") {
             $result = $this->event->where('city', $request->location)->get();
         } elseif ($request->tags != "" && $request->location == "" && $request->searchDate == "") {
             $result = $this->event->where('tags', 'LIKE', '%' . $request->tags . '%')->get();
@@ -458,7 +463,7 @@ class EventController extends Controller
 
         $result = $this->event->where('tags', 'LIKE', '%' . $tag . '%')->get();
 
-        return view('event.searchPage',compact('result'));
+        return view('event.searchPage', compact('result'));
     }
 
     public function radSearch(Request $request)
@@ -612,16 +617,17 @@ class EventController extends Controller
         return redirect()->route('events.show', $details['event_id']);
 
     }
-    public function emailOrganizer(Request $request){
-        $name = $request->name;
-        $address = $request->address;
-        $msg = $request->msg;
-        $id = $request->id;
-        $id = trim($id);
-        $orgEmail = DB::table('users')->select('email')->where('id',$id)->get();
-        foreach($orgEmail as $email)
-        {
-            $e=$email->email;
+
+    public function emailOrganizer(Request $request)
+    {
+        $name     = $request->name;
+        $address  = $request->address;
+        $msg      = $request->msg;
+        $id       = $request->id;
+        $id       = trim($id);
+        $orgEmail = DB::table('users')->select('email')->where('id', $id)->get();
+        foreach ($orgEmail as $email) {
+            $e = $email->email;
         }
 
         $sendgrid = new \SendGrid(env('SENDGRID_USERNAME', 'username'), env('SENDGRID_PASSWORD', 'password'), array("turn_off_ssl_verification" => true));
@@ -631,13 +637,21 @@ class EventController extends Controller
             ->setFrom($address)
             ->setSubject("Your friend has invited you to the event")
             ->setHtml(
-              $msg
+                $msg
             );
         $sendgrid->sendEmail($email);
 
     }
-    public function register($id){
-        return view('register',compact('id'));
+
+    public function register($id)
+    {
+        return view('register', compact('id'));
+    }
+
+    public function registerForm(Request $request)
+    {
+
+
     }
 
 

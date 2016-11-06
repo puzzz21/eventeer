@@ -102,8 +102,8 @@
                         <div class="card-block">
 
                             <div class="md-form">
-                                <input type="text" id="title" name="event_name" class="form-control" value="{{ old('event_name') }}" required="true">
                                 <label for="title">Event Title</label>
+                                <input type="text" id="title" name="event_name" class="form-control" value="{{ old('event_name') }}" required="true">
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -192,7 +192,7 @@
                             <div class="form-group" style="margin-left:5px;">
                                 <label for="req" id="fnt">Registration</label>
 
-                                <label><input type="radio" name="registration" value="required" id="req" style="margin-left:50px;" > required</label>
+                                <label><input type="radio" name="registration" value="required" id="req" style="margin-left:50px;"> required</label>
                                 <label><input type="radio" name="registration" value="not required" id="notreq" style="margin-left:200px;"> not required</label>
 
                             </div>
@@ -311,9 +311,6 @@
             });
 
 
-
-
-
             $("#seat").hide();
 
             $("#seat").keyup(function (e) {
@@ -336,8 +333,6 @@
                 $("#seat").val("0");
                 $("#seat").slideUp("slow");
             });
-
-
 
 
             $('#tags').select2({
