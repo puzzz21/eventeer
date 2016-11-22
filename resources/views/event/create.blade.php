@@ -197,7 +197,7 @@
 
                             </div>
                             <div class="form-group" style="margin-left:5px;">
-                                <label for="seats" id="fnt">Price</label>
+                                <label for="seats" id="fnt">Seats</label>
 
                                 <label><input type="radio" name="seats" value="open" style="margin-left:50px;" id="open"> open</label>
                                 <label><input type="radio" name="seats" value="limited" id="limited" style="margin-left:200px;"> limited</label>

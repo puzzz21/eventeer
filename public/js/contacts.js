@@ -36,6 +36,8 @@ $('.del').on('click', function () {
     });
 });
 
+
+
 $('#add').on('click', function (event) {
     var form = $(this);
     event.preventDefault();

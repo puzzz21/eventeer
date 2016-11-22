@@ -256,7 +256,7 @@ class userController extends Controller
 
         $group_name = DB::table('contacts')->select('group_name')->where('id', '=', $grp)->get();
         $group_name = $group_name[0]->group_name;
-        
+
 
         return view('updateGroup', compact('l', 'group', 'group_id', 'group_name'));
     }

@@ -161,6 +161,7 @@
                                     @endforeach
 
                                 </h3>
+
                                 <hr>
                                 <br/>
 
@@ -203,25 +204,28 @@
                                     @endif
 
                                     <br/>
-                                        @if(($event->seats)==0)
+                                    @if(($event->seats)==0)
 
-                                        @else
-                                            <h3><strong>Available seats</strong></h3>
+                                    @else
+                                        <h3><strong>Available seats</strong></h3>
 
-                                            {{ $event->seats }}
-                                        @endif
-
+                                        {{ $event->seats }}
+                                    @endif
 
 
                                 </h4>
-                                {{--<div id="fb-root"></div>--}}
-
 
                             </div>
                         </div>
                         <hr>
                         <div class="row" id="description">
                             <div class="col-md-7">
+                                @if((session()->get('show')))
+                                    <div class="alert alert-success">
+                                        <h4> {{session()->get('show')}}</h4>
+                                    </div>
+
+                                @endif
                                 <h4><strong>Description</strong><br/><br/>
                                     <p>{{ $event->description }}
                                     </p>
@@ -237,9 +241,16 @@
 
                             </div>
                             <div class="col-md-5" id="require">
-                                @if(($event->registration)=="required")
+                                @if(($event->registration)=="required"  && $registration == [])
 
-                                   <a href="{{ URL::to('register/'. $event->id) }}"> <button class="btn btn-default" id="register" name="register" style="width:200px;">Register</button></a>
+                                    <a href="{{ URL::to('register/'. $event->id) }}">
+                                        <button class="btn btn-default" id="register" name="register" style="width:200px;">Register</button>
+                                    </a>
+
+                                @elseif($event->registration=="required" && $registration != [])
+
+                                    <button class="btn btn-default" id="register" name="register" style="width:200px;">You are registerd.</button>
+                                @else
 
                                 @endif
                                 <br/>
@@ -299,21 +310,21 @@
                 </div>
                 <br/>
 
-                <a href="#" id="ticket">
+                <a href="#">
                     <div id="circle_yes">
                         yes
 
                     </div>
                 </a>
                 &nbsp; &nbsp; &nbsp; &nbsp;
-                <a href="#" id="ticket">
+                <a href="#">
                     <div id="circle_maybe">
                         may be
 
                     </div>
                 </a>
                 &nbsp; &nbsp; &nbsp; &nbsp;
-                <a href="#" id="ticket">
+                <a href="#">
                     <div id="circle_no">
                         no
 
@@ -342,11 +353,7 @@
                                                                        href="https://twitter.com/intent/tweet?text=Check out this event"
                                                                        data-size="large">
                             Tweet</a>
-                        {{--&nbsp; &nbsp; &nbsp;--}}
-                        {{--<a type="button" class="btn-floating btn-large btn-gplus"><i class="fa fa-google-plus"></i></a>--}}
-                        {{--&nbsp; &nbsp; &nbsp;--}}
-                        {{--<a type="button" class="btn-floating btn-large btn-li"><i class="fa fa-linkedin"></i></a>--}}
-                        </p>
+                       </p>
                     </span>
 
 
@@ -468,13 +475,6 @@
         });
     </script>
 
-    {{--<script>(function(d, s, id) {--}}
-    {{--var js, fjs = d.getElementsByTagName(s)[0];--}}
-    {{--if (d.getElementById(id)) return;--}}
-    {{--js = d.createElement(s); js.id = id;--}}
-    {{--js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";--}}
-    {{--fjs.parentNode.insertBefore(js, fjs);--}}
-    {{--}(document, 'script', 'facebook-jssdk'));</script>--}}
     <script>
         $('#send_email').on('click', function () {
             var email = $("#email").val();

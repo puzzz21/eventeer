@@ -24,19 +24,30 @@ $(document).ready(function () {
         }).success(function (response) {
             // document.getElementById("abc").value = response;
 
+            var parent = $('#eventThumbnail');
             response = JSON.parse(response);
-            var y=JSON.stringify(response);
-            $("#abc").val(y);
-
-
 
             var lat = response.lat;
-
             var lng = response.lng;
             var radius = response.radius;
-
             var a= response.a;
 
+            var re = new RegExp(/^.*\//);
+            var url = re.exec(window.location.href);
+
+            parent.empty();
+
+            for (var j=0; j<=a.length; j++) {
+                if (typeof a[j] != 'undefined') {
+                    var eventDiv = $('<div/>', {
+                        class: 'col-sm-3'
+                    }).append("<img src=" + url + "/public/upload/" + a[j].logo + " style='height:250px;width:450px;'/><p><strong>" + a[j].event_name + "</strong></p><p>" + a[j].venue + "</p><p>" + a[j].event_start_datetime + "</p><a href=" + url + "/events/" + a[j].id + "><button class='btn btn-primary'>Details...</button></a>");
+
+                    parent.append(eventDiv);
+                }
+            }
+
+            // $("#abc").val(y);
             var locations=[];
             for(var i=0; i<a.length;i++) {
                 locations.push([a[i]['id'], a[i]['event_name'], a[i]['venue'], a[i]['latitude'], a[i]['longitude']]);

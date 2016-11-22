@@ -2,15 +2,20 @@
 namespace App\Http\Controllers\Event;
 
 use App\Models\Enrollment;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Event;
 use App\Http\Requests\Eventeer\EventRequest;
 use Auth;
-
+use App;
 use Carbon;
 use DB;
+use PDF;
+use \Milon\Barcode\DNS2D;
+
+
 
 
 class EventController extends Controller
@@ -18,11 +23,13 @@ class EventController extends Controller
     protected $event;
     protected $enrollment;
     protected $timevent;
+    protected $registration;
 
-    public function __construct(Event $event, Enrollment $enrollment)
+    public function __construct(Event $event, Enrollment $enrollment, Registration $registration)
     {
-        $this->event      = $event;
-        $this->enrollment = $enrollment;
+        $this->event        = $event;
+        $this->enrollment   = $enrollment;
+        $this->registration = $registration;
         $this->middleware('auth');
         $this->sendGrid = new \SendGrid(env('SENDGRID_USERNAME', 'username'), env('SENDGRID_PASSWORD', 'password'));
 
@@ -240,11 +247,10 @@ class EventController extends Controller
         $group_name = DB::table('contacts')->select('group_name')->where('user_id', '=', $user_id)->get();
         $creator    = DB::table('profile')->where('user_id', $event->user_id)->get();
 
+        $registration = DB::table('registration')->where('user_id', $user_id)->where('event_id', $eventId)->get();
 
 
-
-
-        return view('event.show', compact('group_name', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
+        return view('event.show', compact('group_name', 'registration', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
     }
 
     public function profile($id)
@@ -284,8 +290,11 @@ class EventController extends Controller
         $event_id = $details['event_id'];
 //        $event_ids = $this->enrollment->get(['event_id']);
         $enrolled = DB::table('enrollments')->where('user_id', $user_id)->where('event_id', $event_id)->get();
+
         if ($enrolled == []) {
-            DB::table('enrollments')->insert(['enrollment_status' => $details['enrollment_status'], 'event_id' => $details['event_id'], 'user_id' => $details['user_id']]);
+            $enrollment = $this->enrollment->firstOrCreate($details);
+
+
         } else {
             DB::table('enrollments')->update(['enrollment_status' => $details['enrollment_status'], 'event_id' => $details['event_id'], 'user_id' => $details['user_id']]);
         }
@@ -379,18 +388,43 @@ class EventController extends Controller
 
     public function ticket()
     {
+        $this->pdf();
         $sendgrid = new \SendGrid(env('SENDGRID_USERNAME', 'username'), env('SENDGRID_PASSWORD', 'password'), array("turn_off_ssl_verification" => true));
         $email    = new \SendGrid\Email();
+
         $email
-            ->addTo(auth()->user()->email)
+            ->addTo('puzz.mhzn@gmail.com')
             ->setFrom('puja.maharjan001@gmail.com')
             ->setSubject("Your ticket")
-            ->setHtml("This your ticket");
+            ->setHtml("Here is your ticket. Hope to see you there!")
+            ->addAttachment("/home/puzz/homesteadSites/project/public/myfile.pdf");
+        
         $sendgrid->sendEmail($email);
+    }
+
+    public function pdf()
+    {
+        $record = DB::table('registration')->where('user_id',Auth::user()->id)->get();
+        foreach ($record as $r){
+            $rr=$r->registration_no;
+            $rf=$r->firstName;
+                $rl=$r->lastName;
+                    $e=$r->email;
+                        $g=$r->gender;
+                            $a=$r->age;
+
+        }
+        $d = new DNS2D();
+        $d->setStorPath(__DIR__."/cache/");
+
+        PDF::loadHTML(
+            $d->getBarcodeHTML("9780691147727", "QRCODE").'
+<p> your ticket </p>'. Auth::user()->remember_token .'<br/>'. Auth::user()->name.'<br/>'.Auth::user()->email )->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf');
     }
 
     public function cat($ca)
     {
+
         if ($ca == 'music') {
             $cat = $this->event->where('event_type', 'LIKE', '%' . 'music' . '%')->get();
         } elseif ($ca == 'technology') {
@@ -650,8 +684,70 @@ class EventController extends Controller
 
     public function registerForm(Request $request)
     {
+        $this->registration->create($request->all());
+        $id   = $request->event_id;
+        $show = "You have been registered. Check your email for ticket.";
 
+//        return view('register',compact('show','id'));
+        return redirect()->route('events.show', $id)->withShow($show);
+    }
 
+    public function eventSettingPage()
+    {
+        $id     = Auth::user()->id;
+        $eventt = DB::table('events')->where('user_id', '=', $id)->get();
+        $mytime = Carbon\Carbon::now();
+        $going  = DB::table('enrollments')
+                    ->select(
+                        [
+                            'enrollments.enrollment_id as enrollment_id',
+                            'events.id as event_id',
+                            'events.event_name',
+                            'enrollments.enrollment_status',
+                            'events.logo',
+                            'events.venue',
+                            'events.event_start_datetime'
+                        ]
+                    )
+                    ->join('events', 'enrollments.event_id', '=', 'events.id')
+                    ->where('enrollments.user_id', $id)
+                    ->where('events.event_start_datetime', '>', $mytime->toDateTimeString())
+                    ->where('enrollments.enrollment_status', 'going')
+                    ->get();
+
+        $maybe = DB::table('enrollments')
+                   ->select(
+                       [
+                           'enrollments.enrollment_id as enrollment_id',
+                           'events.id as event_id',
+                           'events.event_name',
+                           'enrollments.enrollment_status',
+                           'events.logo',
+                           'events.venue',
+                           'events.event_start_datetime'
+                       ]
+                   )
+                   ->join('events', 'enrollments.event_id', '=', 'events.id')
+                   ->where('enrollments.user_id', $id)
+                   ->where('events.event_start_datetime', '>', $mytime->toDateTimeString())
+                   ->where('enrollments.enrollment_status', 'maybe')
+                   ->get();
+
+        return view('eventSetting', compact('eventt', 'going', 'maybe'));
+
+    }
+
+    public function deleteEvent(Request $request)
+    {
+        $grp = $request->get('id');
+
+        if (!DB::table('events')->where('id', $grp)->delete()) {
+            return response()->json(['success' => false]);
+        }
+
+//        $group_name = DB::table('contacts')->select('group_name', 'id')->where('user_id', '=', auth()->user()->id)->get();
+
+        return response()->json(['success' => true]);
     }
 
 

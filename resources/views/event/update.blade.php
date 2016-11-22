@@ -194,6 +194,23 @@
                                 <input type="text" name="price" class="form-control" id="price"></textarea>
 
                             </div>
+                            <div class="form-group" style="margin-left:5px;">
+                                <label for="req" id="fnt">Registration</label>
+
+                                <label><input type="radio" name="registration" value="required" id="req" style="margin-left:50px;"> required</label>
+                                <label><input type="radio" name="registration" value="not required" id="notreq" style="margin-left:200px;"> not required</label>
+
+                            </div>
+                            <div class="form-group" style="margin-left:5px;">
+                                <label for="seats" id="fnt">Seats</label>
+
+                                <label><input type="radio" name="seats" value="open" style="margin-left:50px;" id="open"> open</label>
+                                <label><input type="radio" name="seats" value="limited" id="limited" style="margin-left:200px;"> limited</label>
+
+                                <input type="text" name="seats" class="form-control" id="seat"></textarea>
+
+                            </div>
+                            <br/>
                             <div class="md-form">
                                 <label for="special_requirements">Special Requirements</label>
 
@@ -204,7 +221,7 @@
                             <input type="hidden" name="checked[]" id="che" multiple="multiple">
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <input type="submit" class="btn btn-primary" value="Create">
+                                    <button type="submit" class="btn btn-primary" value="update" style="font-size:15px;">Update</button>
                                 </div>
                             </div>
 
@@ -314,6 +331,30 @@
             $('#bbb').val(opt_vals);
 
         });
+
+        $("#seat").hide();
+
+        $("#seat").keyup(function (e) {
+            if ((e.keyCode > 47 && e.keyCode < 58) || (e.keyCode == 8) || (e.keyCode == 9) || (e.keyCode >= 16 && e.keyCode <= 20) || (e.keyCode == 27) || (e.keyCode >= 32 && e.keyCode <= 46)) {
+                $("#seat").val(e.value());
+            }
+            else {
+                $("#seat").val(" ");
+
+            }
+
+
+        });
+
+        $("#limited").click(function () {
+            $("#seat").slideDown("slow");
+
+        });
+        $("#open").click(function () {
+            $("#seat").val("0");
+            $("#seat").slideUp("slow");
+        });
+
 
     </script>
 

@@ -164,15 +164,13 @@
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#profile" role="tab"><i class="fa fa-user"></i> Profile Setting</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#event" role="tab"><i class="fa  fa-cog"></i> Events Setting</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('reset.password') }}"><i class="fa fa-lock"></i> Password</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#sync" role="tab"><i class="fa fa-calendar "></i> Sync</a>
-                        </li>
+                        {{--<li class="nav-item">--}}
+                            {{--<a class="nav-link" data-toggle="tab" href="#sync" role="tab"><i class="fa fa-calendar "></i> Sync</a>--}}
+                        {{--</li>--}}
                     </ul>
                 </div>
             </div>
@@ -283,8 +281,10 @@
                                 </div>
                             </div>
 
-                            <input type="text" name="checked[]" id="che" multiple="multiple">
-                            <input type="submit" class="btn btn-default" value="update">
+                            <input type="hidden" name="checked[]" id="che" multiple="multiple">
+                            <br/>
+
+                           <center> <button type="submit" class="btn btn-default" value="update" style="font-size: 15px;">Update</button></center>
                         </form>
 
                     @else
@@ -373,125 +373,7 @@
                 </div>
                 <!--/.Panel 1-->
 
-                <!--Panel 2-->
-                <div class="tab-pane fade" id="event" role="tabpanel">
-                    <div class="row">
-                        <center> <p> <h3> Events you created</h3></p></center>
-                        @if($eventt==[])
-                           <center> <p>no events created by you</p></center>
 
-
-                        @else
-
-                            <table class="table" style="width:50%;">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Events</th>
-                                    <th>Actions
-                                        <div id="gn"></div>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($eventt as $e)
-                                    <tr>
-                                        <td class="counterCell"></td>
-                                        <td><a href="{{ URL::to('events/'.$e->id) }}"> {{ $e->event_name }}</a></td>
-                                        <td>
-                                            <?php $id = $e->id; ?>
-                                            <input type="hidden" id="idVal" value="{{ $id }}"/>
-                                            <a class="teal-text" href=" {{ URL::to('/updateEvent/'. $id) }}"><i class="fa fa-pencil"></i></a>
-                                            <a class="red-text" id="del"><i class="fa fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        @endif
-                    </div>
-                    <div class="row text-center" >
-                        <br/>
-                        <hr>
-                        <br/>
-                        <center>
-                            <h3>Your upcoming events!!!</h3>
-                        </center>
-                        @if($going!=[])
-                            @foreach($going as $a)
-
-                                <div class="col-md-3" id="thumb" >
-
-
-                                        <div class="thumbnail">
-                                        <img src="{{ asset('public/upload/'.  $a->logo ) }}" style="width:400px;height:250px;"/>
-
-
-                                        <p><strong> {{ $a->event_name }} </strong></p>
-
-                                        <p>{{  $a->venue }}</p>
-                                        <p>{{ $a->event_start_datetime }}</p>
-                                        <a href="{{ URL::to('events/'.$a->event_id) }}">
-                                            <button class="btn btn-primary">Details...</button>
-                                        </a>
-
-                                    </div>
-                                </div>
-
-                            @endforeach
-                                @else
-                            <p><center>You don't have any upcoming events. </center></p>
-                            @endif
-
-
-                        <br/></div>
-                    <hr>
-                    <br/>
-                    <br/>
-
-
-
-
-
-
-
-                    <div class="row text-center">
-                        <center>
-                            <h3>Events you are might go!!!</h3>
-                        </center>
-                        <br/><br/>
-                        @if($maybe==[])
-                            <center>There no events you might go. <br/> <br/></center>
-                            @else
-                            @foreach($maybe as $a)
-
-
-                                <div class="col-md-3" id="thumb" >
-
-
-                                    <div class="thumbnail">
-                                        <img src="{{ asset('public/upload/'.  $a->logo ) }}" style="width:400px;height:250px;"/>
-
-
-                                        <p><strong> {{ $a->event_name }} </strong></p>
-
-                                        <p>{{  $a->venue }}</p>
-                                        <p>{{ $a->event_start_datetime }}</p>
-                                        <a href="{{ URL::to('events/'.$a->event_id) }}">
-                                            <button class="btn btn-primary">Details...</button>
-                                        </a>
-
-                                    </div>
-                                </div>
-
-                            @endforeach
-                            @endif
-
-                    </div>
-
-
-                </div>
-                <!--/.Panel 2-->
 
                 <!--Panel 3-->
                 <div class="tab-pane fade" id="password" role="tabpanel">
