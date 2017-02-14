@@ -72,7 +72,6 @@
                             <br/>
                             <div class="card">
                                 <div class="card-block">
-                                    {{--<input type="text" id="abc" name="abc"/>--}}
 
                                     <div class="thumbnail" id="eventThumbnail">
                                         @foreach($a as $event)

@@ -10,30 +10,40 @@
                     <h4 class="modal-title" id="myModalLabel">Invite</h4>
                 </div>
                 <div class="modal-body">
-                    <select id="email" multiple="multiple" name="email" style="width:500px">
-                    </select>
                     <br/>
                     <br/>
-                    @if(isset($group_name))
-                        <ul>
-                            @foreach( $group_name as $group)
-                                <ol id="grp">
-                                    <a href="#">
-                                        <li>{{ $group->group_name }} </li>
-                                    </a> &nbsp; &nbsp;
-                                </ol>
-                            @endforeach
-                        </ul>
-                    @else
-                        <p>No contact groups!</p>
-                    @endif
-
+                    <form action="{{ route('invite-contacts', $event->id) }}" method="POST">
+                        {{ csrf_field() }}
+                        <select id="email" multiple="multiple" name="group" style="width:500px">
+                            @forelse($group_name as $group)
+                                {{--@forelse (explode(',', $group->contact_list) as $contact)--}}
+                                <option value="{{ $group->id }}">
+                                    {{--<ol id="grp">--}}
+                                    {{--<a href="#">--}}
+                                    {{--<li></li>--}}
+                                    {{--</a> &nbsp; &nbsp;--}}
+                                    {{--</ol>--}}
+                                    {{ $group->group_name }}
+                                </option>
+                                {{--@empty--}}
+                                {{--<p>No contact groups!</p>--}}
+                                {{--@endforelse--}}
+                                {{--<ul>--}}
+                                {{--</ul>--}}
+                            @empty
+                                <p>No contact groups!</p>
+                            @endforelse
+                        </select>
+                        <input type="submit" class="btn btn-sm btn-primary" value="Confirm">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        {{--<button type="button" class="btn btn-primary" id="send_email" data-dismiss="modal">Confirm</button>--}}
+                    </form>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="send_email" data-dismiss="modal">Confirm</button>
-                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                    {{--<button type="button" class="btn btn-primary" id="send_email" data-dismiss="modal">Confirm</button>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -249,8 +259,13 @@
 
                                 @elseif($event->registration=="required" && $registration != [])
 
+
                                     <button class="btn btn-default" id="register" name="register" style="width:200px;">You are registerd.</button>
                                 @else
+
+                                    <a href="{{ URL::to('register/'. $event->id) }}">
+                                        <button class="btn btn-default" id="register" name="register" style="width:200px;">Register</button>
+                                    </a>
 
                                 @endif
                                 <br/>

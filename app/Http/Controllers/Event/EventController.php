@@ -244,6 +244,7 @@ class EventController extends Controller
         }
 
         $user_id    = Auth::user()->id;
+
         $group_name = DB::table('contacts')->select('group_name')->where('user_id', '=', $user_id)->get();
         $creator    = DB::table('profile')->where('user_id', $event->user_id)->get();
 
@@ -251,6 +252,11 @@ class EventController extends Controller
 
 
         return view('event.show', compact('group_name', 'registration', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
+
+//        $group_name = DB::table('contacts')->select('*')->where('user_id', '=', $user_id)->get();
+//        $creator    = DB::table('profile')->where('user_id', $event->user_id)->get();
+//
+//        return view('event.show', compact('group_name', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
     }
 
     public function profile($id)
@@ -748,7 +754,44 @@ class EventController extends Controller
 //        $group_name = DB::table('contacts')->select('group_name', 'id')->where('user_id', '=', auth()->user()->id)->get();
 
         return response()->json(['success' => true]);
+
     }
 
 
+    public function inviteContacts($eventId, Request $request)
+    {
+        $groupId  = $request->get('group');
+        $group    = DB::table('contacts')->select('*')->where('id', '=', $groupId)->first();
+        $contacts = explode(',', $group->contact_list);
+        $event = $this->event->findOrFail($eventId);
+
+        $event_name           = $event->event_name;
+        $venue                = $event->event_venue;
+        $event_start_datetime = $event->event_start_datetime;
+        $event_end_datetime   = $event->event_end_datetime;
+        $address              = $event->address;
+        $city                 = $event->city;
+        $country              = $event->country;
+
+        foreach ($contacts as $contact) {
+            $sendgrid = new \SendGrid(env('SENDGRID_USERNAME', 'username'), env('SENDGRID_PASSWORD', 'password'), array("turn_off_ssl_verification" => true));
+            $email    = new \SendGrid\Email();
+            $email
+                ->addTo($contact)
+                ->setFrom(auth()->user()->email)
+                ->setSubject("Your friend has invited you to the event.")
+                ->setHtml(
+                    " <p> you are invited to this event... </p> <br/>" .
+                    "<h2>" . $event_name . "</h2>" .
+                    " <strong> venue  : </strong> " . $venue .
+                    " <br/> <strong> location  : </strong> " . $city . " ," . $address . " ," . $country .
+                    "<br/> <strong> starts : </strong>" . $event_start_datetime .
+                    "<br/> <strong> ends : </strong>" . $event_end_datetime .
+                    "<br/> <br/> Click in the link for more detail " . route('events.show', $eventId)
+                );
+            $sendgrid->sendEmail($email);
+        }
+
+        return redirect()->to('events.show', $eventId);
+    }
 }
