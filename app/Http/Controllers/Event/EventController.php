@@ -244,8 +244,7 @@ class EventController extends Controller
         }
 
         $user_id    = Auth::user()->id;
-
-        $group_name = DB::table('contacts')->select('group_name')->where('user_id', '=', $user_id)->get();
+        $group_name = DB::table('contacts')->select('*')->where('user_id', '=', $user_id)->get();
         $creator    = DB::table('profile')->where('user_id', $event->user_id)->get();
 
         $registration = DB::table('registration')->where('user_id', $user_id)->where('event_id', $eventId)->get();
@@ -253,10 +252,6 @@ class EventController extends Controller
 
         return view('event.show', compact('group_name', 'registration', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
 
-//        $group_name = DB::table('contacts')->select('*')->where('user_id', '=', $user_id)->get();
-//        $creator    = DB::table('profile')->where('user_id', $event->user_id)->get();
-//
-//        return view('event.show', compact('group_name', 'event', 'creator', 'enrollment', 'going', 'notgoing', 'maybe', 'aaa'));
     }
 
     public function profile($id)
@@ -306,16 +301,6 @@ class EventController extends Controller
         }
 
 
-//        foreach ($user_ids as $user_id) {
-//            foreach ($event_ids as $event_id) {
-//                if (($user_id['user_id'] == $details['user_id']) && ($event_id['event_id'] == $details['event_id'])) {
-//                    $enrollment = $this->enrollment->firstOrCreate($details);
-//                } else {
-//                    $enrollment = $this->enrollment->firstOrCreate($details);
-//                }
-//            }
-
-//            return json_encode($enrollment->enrollment_status);
     }
 
 
@@ -754,7 +739,6 @@ class EventController extends Controller
 //        $group_name = DB::table('contacts')->select('group_name', 'id')->where('user_id', '=', auth()->user()->id)->get();
 
         return response()->json(['success' => true]);
-
     }
 
 

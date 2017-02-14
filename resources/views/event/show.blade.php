@@ -16,27 +16,27 @@
                         {{ csrf_field() }}
                         <select id="email" multiple="multiple" name="group" style="width:500px">
                             @forelse($group_name as $group)
-                                {{--@forelse (explode(',', $group->contact_list) as $contact)--}}
+                                @forelse (explode(',', $group->contact_list) as $contact)
                                 <option value="{{ $group->id }}">
-                                    {{--<ol id="grp">--}}
-                                    {{--<a href="#">--}}
-                                    {{--<li></li>--}}
-                                    {{--</a> &nbsp; &nbsp;--}}
-                                    {{--</ol>--}}
+                                    <ol id="grp">
+                                    <a href="#">
+                                    <li></li>
+                                    </a> &nbsp; &nbsp;
+                                    </ol>
                                     {{ $group->group_name }}
                                 </option>
-                                {{--@empty--}}
-                                {{--<p>No contact groups!</p>--}}
-                                {{--@endforelse--}}
-                                {{--<ul>--}}
-                                {{--</ul>--}}
+                                @empty
+                                <p>No contact groups!</p>
+                                @endforelse
+                                <ul>
+                                </ul>
                             @empty
                                 <p>No contact groups!</p>
                             @endforelse
                         </select>
                         <input type="submit" class="btn btn-sm btn-primary" value="Confirm">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        {{--<button type="button" class="btn btn-primary" id="send_email" data-dismiss="modal">Confirm</button>--}}
+                        <button type="button" class="btn btn-primary" id="send_email" data-dismiss="modal">Confirm</button>
                     </form>
                 </div>
 
